@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
-<meta name="theme-color" content="#000000"/>
+<meta name="theme-color" content="#070b12"/>
 <title>Sai Krishna Katla — Growth & Retention Marketing Leader</title>
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=cabinet-grotesk@300,400,500,700,800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#000;--bg2:#080808;
-  --red:#e74c3c;--red2:#c0392b;--red3:#ff7262;
-  --white:#f5f0f0;--off:#d4c8c8;--muted:#7a6868;--muted2:#4a3a3a;
-  --card:rgba(255,255,255,0.03);--cb:rgba(255,65,45,0.1);--cbh:rgba(231,76,60,0.35);
+  --bg:#070b12;--bg2:#0c1422;
+  --red:#d4a017;--red2:#a87a0e;--red3:#f4c542;
+  --white:#f3f0e8;--off:#cfc7ae;--muted:#7d7a6a;--muted2:#3f3a2a;
+  --card:rgba(255,255,255,0.03);--cb:rgba(212,160,23,0.12);--cbh:rgba(212,160,23,0.4);
   --r-sm:6px;--r-md:12px;--r-lg:18px;
   --nav-h:64px;
 }
@@ -32,8 +32,8 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 #cur,#cur-ring{display:none}
 @media(pointer:fine){
   #cur{display:block;width:8px;height:8px;background:var(--red);border-radius:50%;position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference}
-  #cur-ring{display:block;width:32px;height:32px;border:1.5px solid rgba(231,76,60,0.5);border-radius:50%;position:fixed;z-index:9998;pointer-events:none;transform:translate(-50%,-50%);transition:width .3s cubic-bezier(.16,1,.3,1),height .3s cubic-bezier(.16,1,.3,1),border-color .3s}
-  #cur-ring.big{width:52px;height:52px;border-color:rgba(231,76,60,0.8)}
+  #cur-ring{display:block;width:32px;height:32px;border:1.5px solid rgba(212,160,23,0.5);border-radius:50%;position:fixed;z-index:9998;pointer-events:none;transform:translate(-50%,-50%);transition:width .3s cubic-bezier(.16,1,.3,1),height .3s cubic-bezier(.16,1,.3,1),border-color .3s}
+  #cur-ring.big{width:52px;height:52px;border-color:rgba(212,160,23,0.8)}
 }
 
 /* ══════════════════════════════
@@ -72,9 +72,9 @@ nav.scrolled{height:54px}
 
 /* ── ORBS ── */
 .orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;will-change:transform}
-.orb1{width:600px;height:600px;background:rgba(192,57,43,0.12);top:-200px;right:-100px;animation:driftA 18s ease-in-out infinite alternate}
-.orb2{width:440px;height:440px;background:rgba(231,76,60,0.06);bottom:5%;left:-140px;animation:driftB 22s ease-in-out infinite alternate}
-.orb3{width:300px;height:300px;background:rgba(255,110,80,0.04);top:50%;right:8%;animation:driftC 16s ease-in-out infinite alternate}
+.orb1{width:600px;height:600px;background:rgba(168,122,14,0.12);top:-200px;right:-100px;animation:driftA 18s ease-in-out infinite alternate}
+.orb2{width:440px;height:440px;background:rgba(212,160,23,0.06);bottom:5%;left:-140px;animation:driftB 22s ease-in-out infinite alternate}
+.orb3{width:300px;height:300px;background:rgba(244,197,66,0.04);top:50%;right:8%;animation:driftC 16s ease-in-out infinite alternate}
 @keyframes driftA{to{transform:translate(60px,80px)}}
 @keyframes driftB{to{transform:translate(80px,-60px)}}
 @keyframes driftC{to{transform:translate(-40px,60px)}}
@@ -84,17 +84,17 @@ nav.scrolled{height:54px}
 ══════════════════════════════ */
 #hero{min-height:100svh;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;z-index:2;padding:calc(var(--nav-h) + 60px) 28px 80px;text-align:center}
 .hero-shape{position:absolute;border-radius:50%;pointer-events:none;z-index:0;animation:floatS 6s ease-in-out infinite alternate}
-.hs1{width:380px;height:380px;border:1px solid rgba(231,76,60,0.06);top:12%;right:6%;animation-duration:7s}
-.hs2{width:220px;height:220px;border:1px solid rgba(231,76,60,0.04);bottom:18%;left:4%;animation-duration:9s;animation-delay:2s}
-.hs3{width:110px;height:110px;background:rgba(231,76,60,0.035);top:28%;left:8%;animation-duration:5s;animation-delay:1s;border-radius:20px}
+.hs1{width:380px;height:380px;border:1px solid rgba(212,160,23,0.06);top:12%;right:6%;animation-duration:7s}
+.hs2{width:220px;height:220px;border:1px solid rgba(212,160,23,0.04);bottom:18%;left:4%;animation-duration:9s;animation-delay:2s}
+.hs3{width:110px;height:110px;background:rgba(212,160,23,0.035);top:28%;left:8%;animation-duration:5s;animation-delay:1s;border-radius:20px}
 @keyframes floatS{to{transform:translateY(-18px) rotate(8deg)}}
 .hero-inner{max-width:840px;width:100%;position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(192,57,43,0.1);border:1px solid rgba(231,76,60,0.25);border-radius:100px;font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red3);margin-bottom:28px;animation:fadeUp .6s .1s both}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(168,122,14,0.1);border:1px solid rgba(212,160,23,0.25);border-radius:100px;font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red3);margin-bottom:28px;animation:fadeUp .6s .1s both}
 .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--red3);flex-shrink:0;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.6)}}
 .hero-name{font-family:'Clash Display',sans-serif;font-size:clamp(3rem,14vw,6.5rem);font-weight:700;line-height:.96;letter-spacing:-0.03em;margin-bottom:18px;animation:fadeUp .7s .25s both}
 .hero-name .ln1{display:block;color:var(--white)}
-.hero-name .ln2{display:block;background:linear-gradient(110deg,var(--red2),var(--red) 40%,var(--red3) 70%,#ffaa95);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:gradShift 5s linear infinite}
+.hero-name .ln2{display:block;background:linear-gradient(110deg,var(--red2),var(--red) 40%,var(--red3) 70%,#ffb199);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:gradShift 5s linear infinite}
 @keyframes gradShift{to{background-position:200% center}}
 .hero-subtitle{font-size:clamp(.7rem,2.8vw,.85rem);font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;animation:fadeUp .6s .4s both}
 .hero-typing{font-size:clamp(.9rem,3.5vw,1.12rem);font-weight:400;color:var(--muted);margin-bottom:36px;animation:fadeUp .7s .5s both;min-height:1.8em}
@@ -104,14 +104,14 @@ nav.scrolled{height:54px}
 .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;animation:fadeUp .7s .65s both}
 .btn-primary{padding:14px 28px;background:linear-gradient(135deg,var(--red2),var(--red));border:none;border-radius:var(--r-sm);color:#fff;font-size:.85rem;font-weight:700;font-family:'Cabinet Grotesk',sans-serif;letter-spacing:.05em;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .25s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);opacity:0;transition:opacity .25s}
-.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 36px rgba(192,57,43,0.55)}.btn-primary:hover::before{opacity:1}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 36px rgba(168,122,14,0.55)}.btn-primary:hover::before{opacity:1}
 .btn-outline{padding:14px 28px;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:var(--r-sm);color:var(--off);font-size:.85rem;font-weight:600;font-family:'Cabinet Grotesk',sans-serif;letter-spacing:.05em;text-decoration:none;transition:border-color .25s,background .25s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-.btn-outline:hover{border-color:rgba(231,76,60,0.45);background:rgba(192,57,43,0.07)}
+.btn-outline:hover{border-color:rgba(212,160,23,0.45);background:rgba(168,122,14,0.07)}
 
 /* stats strip */
 .stats-row{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid rgba(255,255,255,0.055);border-radius:var(--r-md);overflow:hidden;background:rgba(255,255,255,0.018);backdrop-filter:blur(20px);width:100%;animation:fadeUp .7s .85s both}
 .stat-item{padding:20px 8px;text-align:center;border-right:1px solid rgba(255,255,255,0.045);transition:background .3s}
-.stat-item:last-child{border-right:none}.stat-item:hover{background:rgba(192,57,43,0.07)}
+.stat-item:last-child{border-right:none}.stat-item:hover{background:rgba(168,122,14,0.07)}
 .stat-num{font-family:'Clash Display',sans-serif;font-size:clamp(1.1rem,4vw,1.85rem);font-weight:700;letter-spacing:-0.025em;background:linear-gradient(120deg,var(--red),var(--red3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1}
 .stat-lbl{font-size:clamp(.44rem,.9vw,.58rem);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:5px;display:block;font-weight:600}
 .scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;animation:fadeUp .6s 1.2s both;color:var(--muted2);font-size:.58rem;letter-spacing:.17em;text-transform:uppercase}
@@ -120,7 +120,7 @@ nav.scrolled{height:54px}
 @keyframes scrA{0%{opacity:1;transform:translateY(0)}75%{opacity:0;transform:translateY(10px)}100%{opacity:0}}
 
 /* ── DIVIDER ── */
-.divider{height:1px;background:linear-gradient(to right,transparent,rgba(231,76,60,0.18),transparent);position:relative;z-index:2}
+.divider{height:1px;background:linear-gradient(to right,transparent,rgba(212,160,23,0.18),transparent);position:relative;z-index:2}
 
 /* ══════════════════════════════
    SECTIONS
@@ -139,11 +139,11 @@ section{padding:80px 48px;position:relative;z-index:2}
 .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start}
 .about-text p{font-size:1rem;color:#bfadad;line-height:1.88;margin-bottom:20px}
 .about-text p strong{color:var(--white);font-weight:700}
-.about-hl{padding:16px 20px;background:rgba(192,57,43,0.07);border-left:2px solid var(--red);border-radius:0 var(--r-sm) var(--r-sm) 0;margin-top:28px;font-size:.84rem;color:var(--red3);font-weight:500;line-height:1.75}
+.about-hl{padding:16px 20px;background:rgba(168,122,14,0.07);border-left:2px solid var(--red);border-radius:0 var(--r-sm) var(--r-sm) 0;margin-top:28px;font-size:.84rem;color:var(--red3);font-weight:500;line-height:1.75}
 .info-stack{display:flex;flex-direction:column;gap:10px}
 .ic{padding:15px 16px;background:var(--card);border:1px solid var(--cb);border-radius:var(--r-md);display:flex;align-items:center;gap:14px;transition:border-color .3s,transform .35s cubic-bezier(.16,1,.3,1),box-shadow .3s;-webkit-tap-highlight-color:transparent}
-.ic:hover,.ic:active{border-color:var(--cbh);transform:translateX(5px);box-shadow:0 8px 32px rgba(192,57,43,0.09)}
-.ic-icon{width:36px;height:36px;flex-shrink:0;background:rgba(192,57,43,0.14);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;border:1px solid rgba(192,57,43,0.2)}
+.ic:hover,.ic:active{border-color:var(--cbh);transform:translateX(5px);box-shadow:0 8px 32px rgba(168,122,14,0.09)}
+.ic-icon{width:36px;height:36px;flex-shrink:0;background:rgba(168,122,14,0.14);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;border:1px solid rgba(168,122,14,0.2)}
 .ic-label{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red3);margin-bottom:2px;font-weight:700}
 .ic-val{font-size:.84rem;color:var(--white);line-height:1.45;font-weight:500}
 
@@ -151,62 +151,62 @@ section{padding:80px 48px;position:relative;z-index:2}
 #skills{background:rgba(8,8,8,0.9)}
 .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .sk-card{padding:24px;background:var(--card);border:1px solid var(--cb);border-radius:var(--r-lg);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;-webkit-tap-highlight-color:transparent}
-.sk-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(231,76,60,0.09) 0%,transparent 55%);opacity:0;transition:opacity .35s;pointer-events:none}
-.sk-card:hover,.sk-card:active{border-color:var(--cbh);box-shadow:0 16px 48px rgba(192,57,43,0.12)}.sk-card:hover::after{opacity:1}
+.sk-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(212,160,23,0.09) 0%,transparent 55%);opacity:0;transition:opacity .35s;pointer-events:none}
+.sk-card:hover,.sk-card:active{border-color:var(--cbh);box-shadow:0 16px 48px rgba(168,122,14,0.12)}.sk-card:hover::after{opacity:1}
 .sk-top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
-.sk-icon{width:36px;height:36px;flex-shrink:0;background:rgba(192,57,43,0.16);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;border:1px solid rgba(192,57,43,0.2)}
+.sk-icon{width:36px;height:36px;flex-shrink:0;background:rgba(168,122,14,0.16);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;border:1px solid rgba(168,122,14,0.2)}
 .sk-title{font-family:'Clash Display',sans-serif;font-size:.92rem;font-weight:600;color:var(--white)}
 .sk-body{font-size:.78rem;color:var(--muted);line-height:1.72}
 .sk-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-.sk-tag{font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:rgba(192,57,43,0.1);border:1px solid rgba(231,76,60,0.2);color:var(--red3)}
+.sk-tag{font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:rgba(168,122,14,0.1);border:1px solid rgba(212,160,23,0.2);color:var(--red3)}
 
 /* ── EXPERIENCE ── */
 #experience{background:rgba(0,0,0,0.88)}
 .timeline{position:relative;padding-left:32px}
-.timeline::before{content:'';position:absolute;left:5px;top:10px;bottom:20px;width:1px;background:linear-gradient(to bottom,var(--red),rgba(192,57,43,0.05))}
+.timeline::before{content:'';position:absolute;left:5px;top:10px;bottom:20px;width:1px;background:linear-gradient(to bottom,var(--red),rgba(168,122,14,0.05))}
 .t-item{position:relative;margin-bottom:28px;opacity:0;transform:translateY(22px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
 .t-item.visible{opacity:1;transform:translateY(0)}
-.t-dot{position:absolute;left:-28px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--red);box-shadow:0 0 10px rgba(231,76,60,0.45);transition:transform .3s,box-shadow .3s}
-.t-item:hover .t-dot{transform:scale(1.4);box-shadow:0 0 18px rgba(231,76,60,0.7)}
+.t-dot{position:absolute;left:-28px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--red);box-shadow:0 0 10px rgba(212,160,23,0.45);transition:transform .3s,box-shadow .3s}
+.t-item:hover .t-dot{transform:scale(1.4);box-shadow:0 0 18px rgba(212,160,23,0.7)}
 .t-card{padding:22px 22px;background:var(--card);border:1px solid var(--cb);border-radius:var(--r-lg);transition:border-color .3s,box-shadow .3s;-webkit-tap-highlight-color:transparent}
-.t-card:hover,.t-card:active{border-color:var(--cbh);box-shadow:0 16px 48px rgba(192,57,43,0.09)}
+.t-card:hover,.t-card:active{border-color:var(--cbh);box-shadow:0 16px 48px rgba(168,122,14,0.09)}
 .t-head{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.05)}
 .t-role{font-family:'Clash Display',sans-serif;font-size:1.02rem;font-weight:600;letter-spacing:-0.01em;color:var(--white);margin-bottom:4px}
 .t-company{font-size:.8rem;font-weight:600;color:var(--red3)}
 .t-cosub{font-size:.74rem;color:var(--muted);font-weight:400}
-.t-badge{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red3);padding:4px 10px;background:rgba(192,57,43,0.09);border:1px solid rgba(231,76,60,0.2);border-radius:var(--r-sm);display:inline-block;margin-bottom:3px}
-.t-badge.intern{color:#fbbf24;background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.22)}
+.t-badge{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red3);padding:4px 10px;background:rgba(168,122,14,0.09);border:1px solid rgba(212,160,23,0.2);border-radius:var(--r-sm);display:inline-block;margin-bottom:3px}
+.t-badge.intern{color:#7dd3e0;background:rgba(125,211,224,0.08);border-color:rgba(125,211,224,0.22)}
 .t-loc{font-size:.68rem;color:var(--muted);display:block;margin-top:3px}
 .t-bullets{list-style:none;display:flex;flex-direction:column;gap:7px}
 .t-bullets li{font-size:.82rem;color:#b0a0a0;padding-left:15px;position:relative;line-height:1.7}
-.t-bullets li::before{content:'';position:absolute;left:0;top:.65em;width:5px;height:5px;border-radius:50%;background:rgba(231,76,60,0.7)}
+.t-bullets li::before{content:'';position:absolute;left:0;top:.65em;width:5px;height:5px;border-radius:50%;background:rgba(212,160,23,0.7)}
 .t-bullets li strong{color:var(--white)}
 
 /* ── CERTS ── */
 #certs{background:rgba(8,8,8,0.9)}
 .certs-table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid rgba(255,255,255,0.055);border-radius:var(--r-lg);overflow:hidden}
-.certs-table thead tr{background:rgba(192,57,43,0.08)}
+.certs-table thead tr{background:rgba(168,122,14,0.08)}
 .certs-table th{padding:12px 16px;font-family:'Clash Display',sans-serif;font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:left}
 .certs-table th:first-child{width:36px;text-align:center}.certs-table th:last-child{text-align:center;width:70px}
 .certs-table tbody tr{border-bottom:1px solid rgba(255,255,255,0.04);opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s,background .25s}
 .certs-table tbody tr.visible{opacity:1;transform:translateY(0)}.certs-table tbody tr:last-child{border-bottom:none}
-.certs-table tbody tr:hover{background:rgba(192,57,43,0.05)}
+.certs-table tbody tr:hover{background:rgba(168,122,14,0.05)}
 .certs-table td{padding:13px 16px;vertical-align:middle}
-.td-num{text-align:center;font-family:'Clash Display',sans-serif;font-size:.68rem;font-weight:600;color:rgba(231,76,60,0.35)}
-.td-icon{width:30px;height:30px;border-radius:7px;background:rgba(192,57,43,0.12);border:1px solid rgba(231,76,60,0.16);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.td-num{text-align:center;font-family:'Clash Display',sans-serif;font-size:.68rem;font-weight:600;color:rgba(212,160,23,0.35)}
+.td-icon{width:30px;height:30px;border-radius:7px;background:rgba(168,122,14,0.12);border:1px solid rgba(212,160,23,0.16);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
 .td-cert-name{font-family:'Clash Display',sans-serif;font-size:.86rem;font-weight:600;color:var(--white)}
 .td-cert-sub{font-size:.72rem;color:var(--muted);margin-top:2px}
 .td-org{font-size:.76rem;font-weight:600;color:var(--off)}
-.td-tag{display:inline-block;font-size:.56rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:rgba(192,57,43,0.1);border:1px solid rgba(231,76,60,0.22);color:var(--red3)}
+.td-tag{display:inline-block;font-size:.56rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:rgba(168,122,14,0.1);border:1px solid rgba(212,160,23,0.22);color:var(--red3)}
 .td-check{text-align:center}
-.check-circle{width:24px;height:24px;border-radius:50%;margin:0 auto;border:1.5px solid rgba(231,76,60,0.35);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--red3);transition:background .25s}
-.certs-table tbody tr:hover .check-circle{background:rgba(192,57,43,0.15);border-color:var(--red)}
+.check-circle{width:24px;height:24px;border-radius:50%;margin:0 auto;border:1.5px solid rgba(212,160,23,0.35);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--red3);transition:background .25s}
+.certs-table tbody tr:hover .check-circle{background:rgba(168,122,14,0.15);border-color:var(--red)}
 
 /* cert mobile card fallback */
 .cert-cards{display:none;flex-direction:column;gap:12px}
 .cert-card{padding:16px;background:var(--card);border:1px solid var(--cb);border-radius:var(--r-md);display:flex;gap:14px;align-items:flex-start;opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s}
 .cert-card.visible{opacity:1;transform:translateY(0)}
-.cert-card-icon{width:36px;height:36px;border-radius:8px;background:rgba(192,57,43,0.12);border:1px solid rgba(231,76,60,0.16);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.cert-card-icon{width:36px;height:36px;border-radius:8px;background:rgba(168,122,14,0.12);border:1px solid rgba(212,160,23,0.16);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
 .cert-card-body{flex:1;min-width:0}
 .cert-card-name{font-family:'Clash Display',sans-serif;font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:3px}
 .cert-card-sub{font-size:.72rem;color:var(--muted);margin-bottom:6px;line-height:1.5}
@@ -215,15 +215,15 @@ section{padding:80px 48px;position:relative;z-index:2}
 
 /* ── CONTACT ── */
 #contact{background:rgba(0,0,0,0.9);text-align:center;overflow:hidden}
-.contact-glow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:700px;height:380px;background:radial-gradient(ellipse,rgba(192,57,43,0.1) 0%,transparent 68%);pointer-events:none}
+.contact-glow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:700px;height:380px;background:radial-gradient(ellipse,rgba(168,122,14,0.1) 0%,transparent 68%);pointer-events:none}
 .contact-inner{position:relative;z-index:1;max-width:580px;margin:0 auto}
 .contact-over{font-size:.63rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--red3);margin-bottom:20px;display:block}
 .contact-h{font-family:'Clash Display',sans-serif;font-size:clamp(2rem,7vw,3.4rem);font-weight:700;line-height:1.04;letter-spacing:-0.025em;margin-bottom:16px}
-.contact-h em{font-style:normal;background:linear-gradient(110deg,var(--red),var(--red3),#ffaa95);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:gradShift 5s linear infinite}
+.contact-h em{font-style:normal;background:linear-gradient(110deg,var(--red),var(--red3),#ffb199);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:gradShift 5s linear infinite}
 .contact-sub{font-size:.9rem;color:var(--muted);line-height:1.75;margin-bottom:40px}
 .contact-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .c-link{display:flex;align-items:center;gap:9px;padding:14px 20px;background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:var(--r-md);color:var(--off);text-decoration:none;font-size:.8rem;font-weight:500;transition:border-color .25s,background .25s,transform .2s;-webkit-tap-highlight-color:transparent;min-height:48px}
-.c-link:hover,.c-link:active{border-color:rgba(231,76,60,0.38);background:rgba(192,57,43,0.08)}
+.c-link:hover,.c-link:active{border-color:rgba(212,160,23,0.38);background:rgba(168,122,14,0.08)}
 footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;color:var(--muted2);border-top:1px solid rgba(255,255,255,0.03);background:var(--bg);text-transform:uppercase}
 
 /* ── ANIMATIONS ── */
@@ -333,8 +333,8 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
     <div class="stats-row">
       <div class="stat-item"><span class="stat-num" data-target="200" data-suffix="Cr+">0</span><span class="stat-lbl">Revenue ₹</span></div>
       <div class="stat-item"><span class="stat-num" data-target="8" data-suffix="+">0</span><span class="stat-lbl">Years Exp</span></div>
-      <div class="stat-item"><span class="stat-num" data-target="70" data-suffix="%">0</span><span class="stat-lbl">DAU Growth</span></div>
-      <div class="stat-item"><span class="stat-num" data-target="23" data-suffix="%">0</span><span class="stat-lbl">Rev Uplift</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="65" data-suffix="%">0</span><span class="stat-lbl">YoY MAU Growth</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="200" data-suffix="%">0</span><span class="stat-lbl">ARPU Growth</span></div>
       <div class="stat-item"><span class="stat-num" data-target="1" data-suffix="M+">0</span><span class="stat-lbl">Users</span></div>
     </div>
   </div>
@@ -381,7 +381,7 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
     <div class="skills-grid">
       <div class="sk-card reveal d1"><div class="sk-top"><div class="sk-icon">📈</div><div class="sk-title">Growth Strategy</div></div><div class="sk-body">Full-funnel acquisition, retention &amp; lifecycle strategy, OKR frameworks, north star metric ownership, P&amp;L management.</div><div class="sk-tags"><span class="sk-tag">Strategy</span><span class="sk-tag">OKR</span><span class="sk-tag">P&L</span><span class="sk-tag">North Star</span></div></div>
       <div class="sk-card reveal d2"><div class="sk-top"><div class="sk-icon">🔁</div><div class="sk-title">CRM &amp; Lifecycle</div></div><div class="sk-body">Behavioral segmentation, LTV optimisation, churn reduction, reactivation programs, bonus &amp; incentive design.</div><div class="sk-tags"><span class="sk-tag">CRM</span><span class="sk-tag">CLM</span><span class="sk-tag">LTV</span><span class="sk-tag">Segmentation</span></div></div>
-      <div class="sk-card reveal d3"><div class="sk-top"><div class="sk-icon">🤖</div><div class="sk-title">AI/ML Marketing</div></div><div class="sk-body">Predictive churn models, propensity modeling, recommendation engines, A/B &amp; multivariate experimentation.</div><div class="sk-tags"><span class="sk-tag">ML Models</span><span class="sk-tag">A/B Testing</span><span class="sk-tag">Cohort</span><span class="sk-tag">Python</span></div></div>
+      <div class="sk-card reveal d3"><div class="sk-top"><div class="sk-icon">🤖</div><div class="sk-title">AI/ML Marketing</div></div><div class="sk-body">Predictive churn models, propensity modeling, recommendation engines, A/B &amp; multivariate experimentation, Gen AI applications.</div><div class="sk-tags"><span class="sk-tag">ML Models</span><span class="sk-tag">A/B Testing</span><span class="sk-tag">Gen AI</span><span class="sk-tag">Python</span></div></div>
       <div class="sk-card reveal d1"><div class="sk-top"><div class="sk-icon">🚀</div><div class="sk-title">GTM &amp; Product Marketing</div></div><div class="sk-body">AI/ML product narratives, C-suite positioning, sales enablement, competitive analysis, RFP frameworks.</div><div class="sk-tags"><span class="sk-tag">GTM</span><span class="sk-tag">Positioning</span><span class="sk-tag">PMM</span><span class="sk-tag">Enablement</span></div></div>
       <div class="sk-card reveal d2"><div class="sk-top"><div class="sk-icon">📊</div><div class="sk-title">Analytics &amp; Data</div></div><div class="sk-body">SQL, Python, Tableau, Power BI, CleverTap, GCP, Azure — from raw data to boardroom insight.</div><div class="sk-tags"><span class="sk-tag">SQL</span><span class="sk-tag">Tableau</span><span class="sk-tag">CleverTap</span><span class="sk-tag">GCP</span></div></div>
       <div class="sk-card reveal d3"><div class="sk-top"><div class="sk-icon">🛠️</div><div class="sk-title">Product Collaboration</div></div><div class="sk-body">PRD definition, roadmap prioritisation, cross-functional alignment, Agile/Scrum, feature adoption tracking.</div><div class="sk-tags"><span class="sk-tag">PRD</span><span class="sk-tag">Roadmap</span><span class="sk-tag">Agile</span><span class="sk-tag">Adoption</span></div></div>
@@ -405,18 +405,17 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
         <div class="t-dot"></div>
         <div class="t-card">
           <div class="t-head">
-            <div class="t-left"><div class="t-role">Manager — Growth &amp; Retention Marketing</div><div class="t-company">HEAD DIGITAL WORKS (A23) <span class="t-cosub">· India's largest Rummy &amp; Poker platform · ₹200 Cr+ MRR</span></div></div>
+            <div class="t-left"><div class="t-role">Manager — Growth &amp; Retention Marketing</div><div class="t-company">HEAD DIGITAL WORKS (A23) <span class="t-cosub">· India's largest online Rummy platform · 1M+ active users · Strategy Lead → Asst. Manager → Manager</span></div></div>
             <div class="t-right"><span class="t-badge">Aug 2022 — Present</span><span class="t-loc">📍 Hyderabad</span></div>
           </div>
           <ul class="t-bullets">
-            <li>Designed acquisition, retention &amp; lifecycle strategies driving <strong>₹200 Cr+ monthly revenue</strong>, owning NGR, Churn, DAU &amp; Engagement KPIs.</li>
-            <li>Developed <strong>product positioning &amp; GTM messaging</strong> for new game formats and feature launches, driving adoption across <strong>1M+ users</strong>.</li>
-            <li>Led 100-day 'Maha Mela' growth program <strong>(₹100 Cr reward pool)</strong> achieving <strong>23% incremental revenue growth</strong> and record participation.</li>
-            <li>Scaled engagement programs delivering <strong>20%+ revenue uplift</strong> and <strong>70% DAU growth</strong> via behavioral segmentation &amp; lifecycle automation.</li>
-            <li>Contributed to <strong>PRD definition &amp; product roadmap prioritisation</strong> for lifecycle features, aligning cross-functional squads to OKR-driven retention targets.</li>
-            <li>Collaborated with Data Science to deploy <strong>ML-based predictive churn models</strong>, improving retention by 7% and revenue by 5%.</li>
-            <li>Institutionalized <strong>A/B &amp; multivariate experimentation frameworks</strong> for data-driven retention and monetization.</li>
-            <li>Built behavioral segmentation systems and optimized bonus/incentive frameworks to improve engagement efficiency.</li>
+            <li>Owned <strong>end-to-end P&amp;L accountability</strong> for <strong>1M+ MAU</strong> generating <strong>₹200 Cr+ monthly revenue</strong>, steering lifecycle, retention, and monetization systems across the business.</li>
+            <li>Built <strong>LTV-based segmentation</strong> and predictive churn models, unlocking <strong>₹11 Cr+</strong> in incremental monthly upsell revenue while cutting high-value player churn from <strong>9% to 3.5%</strong> — a 61% relative drop.</li>
+            <li>Doubled <strong>ARPU (200% growth)</strong> over two years through LTV-driven segmentation, personalized offer logic, and lifecycle-based monetization design.</li>
+            <li>Conceived and governed an <strong>end-to-end experimentation platform</strong>, scaling to <strong>50+ experiments</strong> within 6 months and 25+ recurring tests across onboarding, churn prevention, and reactivation — lifting D7/D30 retention by 2% and new-player ARPU by 50%+.</li>
+            <li>Drove <strong>65% YoY MAU growth</strong> by scaling retention and reactivation programs, lifting reactivations 38% YoY through targeted campaigns, then a further <strong>112% YoY</strong> via automated CRM journeys.</li>
+            <li>Designed and scaled cohort-led GTM playbooks <strong>RIO and Rummy BOSS</strong>, lifting monthly gross revenue ~20% and growing day-level NGR from <strong>₹1.8 Cr to ₹2.5 Cr</strong>.</li>
+            <li>Operated as the central growth orchestrator across Product, Analytics, BI, CRM, and leadership — <strong>managing and mentoring a 7-member growth &amp; retention team</strong> and driving weekly CEO-level MIS on revenue, MAU, ARPU, and churn.</li>
           </ul>
         </div>
       </div>
@@ -442,7 +441,7 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
         <div class="t-dot"></div>
         <div class="t-card">
           <div class="t-head">
-            <div class="t-left"><div class="t-role">Management Associate | Marketing Analytics</div><div class="t-company">HDFC BANK <span class="t-cosub">· Fintech &amp; Banking · Customer Insights &amp; Analytics</span></div></div>
+            <div class="t-left"><div class="t-role">Marketing Analyst | Customer Analytics</div><div class="t-company">HDFC BANK <span class="t-cosub">· Fintech &amp; Banking · Customer Insights &amp; Analytics</span></div></div>
             <div class="t-right"><span class="t-badge">Jun 2021 — Oct 2021</span><span class="t-loc">📍 Mumbai</span></div>
           </div>
           <ul class="t-bullets">
@@ -457,7 +456,7 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
         <div class="t-dot"></div>
         <div class="t-card">
           <div class="t-head">
-            <div class="t-left"><div class="t-role">Marketing Analyst — Internship</div><div class="t-company">EMPOWER <span class="t-cosub">· Fintech · Retirement &amp; Wealth Management · USA</span></div></div>
+            <div class="t-left"><div class="t-role">Marketing Data Analyst — Internship</div><div class="t-company">EMPOWER <span class="t-cosub">· Fintech · Retirement &amp; Wealth Management · USA</span></div></div>
             <div class="t-right"><span class="t-badge intern">May 2020 — Sep 2020</span><span class="t-loc">📍 Bengaluru (Remote)</span></div>
           </div>
           <ul class="t-bullets">
@@ -569,14 +568,14 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
   const isMobile=()=>window.innerWidth<=768;
   function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight}
   resize();window.addEventListener('resize',resize);
-  const R='rgba(231,76,60,',t0=Date.now();
+  const R='rgba(212,160,23,',t0=Date.now();
   const METRICS=['DAU +70%','LTV ↑','CTR 4.2%','Churn ↓7%','NGR ▲','ARPU $12','NPS 68','CAC ↓','MAU 1M+','Retention 82%','CVR 3.8%','MRR ₹200Cr','A/B Win','Cohort D30','Funnel 23%'];
   const floats=METRICS.map(m=>({text:m,x:Math.random()*.9*1920+50,y:Math.random()*.9*1080+50,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.18,alpha:Math.random()*.22+.06,size:Math.random()*3+9,phase:Math.random()*Math.PI*2}));
   const PARTS=Array.from({length:isMobile()?30:55},()=>({x:Math.random()*1920,y:Math.random()*1080,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.3,r:Math.random()*1.4+.4,alpha:Math.random()*.3+.05}));
   const lineBase=[.3,.45,.38,.55,.5,.62,.58,.72,.68,.8,.77,.9];
   const BAR_VALS=[.4,.55,.48,.7,.62,.82,.75,.9];
   const SPARKS=[{x:.08,y:.18,pts:[.3,.5,.4,.65,.55,.8]},{x:.72,y:.62,pts:[.6,.4,.7,.5,.85,.65]},{x:.15,y:.7,pts:[.2,.4,.35,.55,.45,.7]},{x:.82,y:.25,pts:[.5,.3,.6,.45,.75,.55]}];
-  function drawGrid(){for(let i=0;i<=Math.floor(W/60);i++)for(let j=0;j<=Math.floor(H/60);j++){cx.beginPath();cx.arc(i*60,j*60,.7,0,Math.PI*2);cx.fillStyle='rgba(231,76,60,0.07)';cx.fill()}}
+  function drawGrid(){for(let i=0;i<=Math.floor(W/60);i++)for(let j=0;j<=Math.floor(H/60);j++){cx.beginPath();cx.arc(i*60,j*60,.7,0,Math.PI*2);cx.fillStyle='rgba(212,160,23,0.07)';cx.fill()}}
   function drawConns(){for(let i=0;i<PARTS.length;i++)for(let j=i+1;j<PARTS.length;j++){const dx=PARTS[i].x-PARTS[j].x,dy=PARTS[i].y-PARTS[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){cx.beginPath();cx.moveTo(PARTS[i].x,PARTS[i].y);cx.lineTo(PARTS[j].x,PARTS[j].y);cx.strokeStyle=R+(0.06*(1-d/120))+')';cx.lineWidth=.5;cx.stroke()}}}
   function drawParts(){PARTS.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=R+p.alpha+')';cx.fill()})}
   function drawLine(t){if(isMobile())return;const lx=W*.55,ly=H*.06,lw=W*.3,lh=H*.22,step=lw/(lineBase.length-1);for(let i=0;i<=4;i++){cx.beginPath();cx.moveTo(lx,ly+lh*(i/4));cx.lineTo(lx+lw,ly+lh*(i/4));cx.strokeStyle=R+'0.05)';cx.lineWidth=.7;cx.stroke()}cx.beginPath();lineBase.forEach((v,i)=>{const py=ly+lh*(1-(v+Math.sin(t*.8+i*.7)*.05));i===0?cx.moveTo(lx+i*step,py):cx.lineTo(lx+i*step,py)});cx.strokeStyle=R+'0.28)';cx.lineWidth=1.5;cx.lineJoin='round';cx.stroke();cx.lineTo(lx+lw,ly+lh);cx.lineTo(lx,ly+lh);cx.closePath();const g=cx.createLinearGradient(0,ly,0,ly+lh);g.addColorStop(0,R+'0.1)');g.addColorStop(1,R+'0)');cx.fillStyle=g;cx.fill();cx.fillStyle=R+'0.16)';cx.font=`500 ${W*.0075}px Cabinet Grotesk,sans-serif`;cx.textAlign='left';cx.fillText('REVENUE GROWTH TREND',lx,ly-10)}
