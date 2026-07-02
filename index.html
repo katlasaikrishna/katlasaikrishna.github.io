@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -275,6 +276,26 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
   #bg-canvas{display:none}
 }
+
+/* ══ CASE STUDIES ══ */
+#casestudies{background:rgba(0,0,0,0.88)}
+.cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cs-card{position:relative;padding:26px 24px 22px;background:var(--card);border:1px solid var(--cb);border-radius:var(--r-lg);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;overflow:hidden;transition:border-color .3s,box-shadow .3s,transform .35s cubic-bezier(.16,1,.3,1);-webkit-tap-highlight-color:transparent}
+.cs-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(212,160,23,0.07) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.cs-card:hover{border-color:var(--cbh);box-shadow:0 20px 56px rgba(212,160,23,0.1);transform:translateY(-4px)}.cs-card:hover::before{opacity:1}
+.cs-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.cs-tag{font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:rgba(212,160,23,0.1);border:1px solid rgba(212,160,23,0.25);color:var(--red3);flex-shrink:0;margin-top:2px}
+.cs-num{font-family:'Clash Display',sans-serif;font-size:.65rem;font-weight:600;color:rgba(212,160,23,0.3);letter-spacing:.06em}
+.cs-title{font-family:'Clash Display',sans-serif;font-size:1.02rem;font-weight:700;letter-spacing:-0.01em;color:var(--white);line-height:1.25}
+.cs-desc{font-size:.78rem;color:var(--muted);line-height:1.72;flex:1}
+.cs-metrics{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)}
+.cs-metric{font-size:.62rem;font-weight:700;color:var(--red3);background:rgba(212,160,23,0.07);border:1px solid rgba(212,160,23,0.15);border-radius:4px;padding:3px 8px;letter-spacing:.04em}
+.cs-arrow{font-size:.75rem;color:var(--red3);transition:transform .25s cubic-bezier(.16,1,.3,1);flex-shrink:0;display:inline-block}
+.cs-card:hover .cs-arrow{transform:translateX(5px)}
+.cs-index-link{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red3);text-decoration:none;padding:10px 20px;border:1px solid rgba(212,160,23,0.25);border-radius:var(--r-sm);transition:background .25s,border-color .25s,transform .2s;background:rgba(212,160,23,0.04)}
+.cs-index-link:hover{background:rgba(212,160,23,0.1);border-color:rgba(212,160,23,0.45);transform:translateY(-2px)}
+@media(max-width:768px){.cs-grid{grid-template-columns:1fr;gap:12px}}
+@media(min-width:481px) and (max-width:768px){.cs-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -293,6 +314,7 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#certs">Certifications</a></li>
+    <li><a href="#casestudies">Case Studies</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <!-- mobile hamburger -->
@@ -308,6 +330,7 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
     <li><a href="#skills" class="drawer-link">Skills</a></li>
     <li><a href="#experience" class="drawer-link">Experience</a></li>
     <li><a href="#certs" class="drawer-link">Certifications</a></li>
+    <li><a href="#casestudies" class="drawer-link">Case Studies</a></li>
     <li><a href="#contact" class="drawer-link">Contact</a></li>
   </ul>
   <div class="drawer-footer">Growth &amp; Retention Marketing Leader</div>
@@ -538,6 +561,100 @@ footer{text-align:center;padding:20px 28px;font-size:.6rem;letter-spacing:.12em;
       <div class="cert-card"><div class="cert-card-icon">🐍</div><div class="cert-card-body"><div class="cert-card-name">Intro to Data Science in Python</div><div class="cert-card-sub">Pandas, NumPy &amp; exploratory data analysis</div><div class="cert-card-meta"><span class="cert-card-org">Coursera</span><span class="td-tag">Data</span></div></div></div>
     </div>
 
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CASE STUDIES -->
+<section id="casestudies">
+  <div class="s-inner">
+    <div class="s-header reveal">
+      <div class="s-eyebrow">Work Samples</div>
+      <h2 class="s-title">Case Studies &amp; <em>Deep Dives</em></h2>
+      <p class="s-sub">Real problems, real data, real outcomes — how I think through growth, retention, and lifecycle challenges.</p>
+    </div>
+    <div class="cs-grid">
+
+      <a class="cs-card reveal d1" href="retention-framework-case-study.html" target="_blank">
+        <div class="cs-card-top">
+          <span class="cs-num">01</span>
+          <span class="cs-tag">Retention</span>
+        </div>
+        <div class="cs-title">Engagement Value Framework <span class="cs-arrow">→</span></div>
+        <div class="cs-desc">Replaced calendar-driven campaigns with a customer-level retention score — telling the business exactly who's worth investing in, and how much.</div>
+        <div class="cs-metrics">
+          <span class="cs-metric">Churn ↓61%</span>
+          <span class="cs-metric">₹11Cr+ Upsell</span>
+          <span class="cs-metric">LTV Segmentation</span>
+        </div>
+      </a>
+
+      <a class="cs-card reveal d2" href="lifecycle-journey-case-study.html" target="_blank">
+        <div class="cs-card-top">
+          <span class="cs-num">02</span>
+          <span class="cs-tag">Lifecycle</span>
+        </div>
+        <div class="cs-title">Game-End Nudge System <span class="cs-arrow">→</span></div>
+        <div class="cs-desc">A segmented nudge system that reads wallet balance, loss amount, and purchase propensity the instant a game ends — deciding in real time whether and how to intervene.</div>
+        <div class="cs-metrics">
+          <span class="cs-metric">Real-time Decisioning</span>
+          <span class="cs-metric">CleverTap Automation</span>
+          <span class="cs-metric">ARPU ↑50%+</span>
+        </div>
+      </a>
+
+      <a class="cs-card reveal d3" href="reactivation-framework-case-study.html" target="_blank">
+        <div class="cs-card-top">
+          <span class="cs-num">03</span>
+          <span class="cs-tag">Reactivation</span>
+        </div>
+        <div class="cs-title">Reactivation Engine Redesign <span class="cs-arrow">→</span></div>
+        <div class="cs-desc">Moved a lapsed-player reactivation engine from a manually-maintained monthly batch process to an automated, self-refreshing targeting system.</div>
+        <div class="cs-metrics">
+          <span class="cs-metric">Reactivations +112% YoY</span>
+          <span class="cs-metric">CRM Automation</span>
+          <span class="cs-metric">Batch → Real-time</span>
+        </div>
+      </a>
+
+      <a class="cs-card reveal d1" href="growth-data-science-case-study.html" target="_blank">
+        <div class="cs-card-top">
+          <span class="cs-num">04</span>
+          <span class="cs-tag">AI / ML</span>
+        </div>
+        <div class="cs-title">Growth × Data Science <span class="cs-arrow">→</span></div>
+        <div class="cs-desc">Four predictive models, one recurring role: translating marketing problems into target variables a data science team could build against — then turning output into business targeting rules.</div>
+        <div class="cs-metrics">
+          <span class="cs-metric">4 ML Models</span>
+          <span class="cs-metric">Churn Prediction</span>
+          <span class="cs-metric">Propensity Modeling</span>
+        </div>
+      </a>
+
+      <a class="cs-card reveal d2" href="tournament-season-case-study.html" target="_blank">
+        <div class="cs-card-top">
+          <span class="cs-num">05</span>
+          <span class="cs-tag">GTM · Growth</span>
+        </div>
+        <div class="cs-title">The Season — Tournament GTM Program <span class="cs-arrow">→</span></div>
+        <div class="cs-desc">A national-scale tournament and loyalty season spanning two months — acquiring high-value players, lifting engagement across the base, and winning back drifted players simultaneously.</div>
+        <div class="cs-metrics">
+          <span class="cs-metric">MAU +65% YoY</span>
+          <span class="cs-metric">NGR ₹1.8→₹2.5Cr/day</span>
+          <span class="cs-metric">Multi-crore Prize Pool</span>
+        </div>
+      </a>
+
+      <a class="cs-card reveal d3" href="case-studies-index.html" target="_blank" style="border-style:dashed;border-color:rgba(212,160,23,0.2);justify-content:center;align-items:center;text-align:center;min-height:220px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem">📂</div>
+          <div class="cs-title" style="font-size:.92rem">View All Case Studies</div>
+          <div class="cs-desc" style="font-size:.74rem;text-align:center;margin:0">Browse the full index with all work samples and deep dives in one place →</div>
+        </div>
+      </a>
+
+    </div>
   </div>
 </section>
 
