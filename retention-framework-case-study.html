@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engagement Value — A Retention Strategy Case Study | Sai Krishna Katla</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink: #0A0F1A;
+  --ink-2: #111A2B;
+  --ink-3: #182236;
+  --line: rgba(237,234,224,0.10);
+  --line-strong: rgba(237,234,224,0.22);
+  --paper: #EDEAE0;
+  --paper-dim: rgba(237,234,224,0.62);
+  --paper-faint: rgba(237,234,224,0.38);
+  --gold: #D4A73C;
+  --gold-dim: rgba(212,167,60,0.16);
+  --teal: #4FBDBA;
+  --teal-dim: rgba(79,189,186,0.16);
+  --coral: #E2604F;
+  --coral-dim: rgba(226,96,79,0.16);
+
+  --display: 'Instrument Serif', serif;
+  --head: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+::selection{ background:var(--gold); color:var(--ink); }
+a{color:inherit;}
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+.wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+@media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+/* ---------- CONTEXT BANNER ---------- */
+.ctx-banner{ background:var(--ink-2); border-bottom:1px solid var(--line-strong); padding:10px 0; }
+.ctx-banner .wrap{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ctx-banner .dot{ width:6px; height:6px; border-radius:50%; background:var(--teal); flex:none; }
+.ctx-banner p{ margin:0; font-family:var(--mono); font-size:11.5px; color:var(--paper-faint); letter-spacing:0.01em; }
+.ctx-banner b{ color:var(--paper-dim); font-weight:500; }
+
+/* ---------- NAV ---------- */
+nav.top{
+  position:sticky; top:0; z-index:50;
+  background:rgba(10,15,26,0.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+nav.top .wrap{ display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand{ font-family:var(--head); font-weight:600; font-size:14px; letter-spacing:0.02em; }
+.brand span{ color:var(--gold); }
+.navlinks{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+.navlinks a{ font-family:var(--head); font-size:12.5px; text-decoration:none; color:var(--paper-dim); letter-spacing:0.03em; text-transform:uppercase; transition:color .2s; }
+.navlinks a:hover{ color:var(--gold); }
+@media (max-width:760px){ .navlinks{ display:none; } }
+
+/* ---------- REVEAL ---------- */
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ---------- HERO ---------- */
+.hero{ padding:80px 0 64px; position:relative; overflow:hidden; }
+.hero::before{
+  content:''; position:absolute; inset:-20% -10% auto -10%; height:520px;
+  background:radial-gradient(ellipse at 30% 20%, rgba(212,167,60,0.10), transparent 60%),
+             radial-gradient(ellipse at 75% 40%, rgba(79,189,186,0.08), transparent 55%);
+  pointer-events:none;
+}
+.eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.eyebrow::before{ content:''; width:24px; height:1px; background:var(--teal); }
+.hero h1{
+  font-family:var(--display); font-weight:400; font-style:normal;
+  font-size:clamp(44px,7.5vw,84px); line-height:1.0; margin:0 0 24px; letter-spacing:-0.01em;
+  max-width:820px;
+}
+.hero h1 em{ font-style:italic; color:var(--gold); }
+.hero p.lede{ font-size:19px; color:var(--paper-dim); max-width:560px; margin:0 0 32px; }
+
+.role-card{ display:flex; gap:16px; align-items:center; padding:16px 20px; border:1px solid var(--line-strong); border-radius:8px; background:var(--ink-2); max-width:560px; margin-bottom:36px; }
+.role-card .avatar{ width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg, var(--gold), var(--coral)); flex:none; display:flex; align-items:center; justify-content:center; font-family:var(--head); font-weight:700; color:var(--ink); font-size:16px; }
+.role-card .rt{ font-size:13.5px; color:var(--paper-dim); line-height:1.45; }
+.role-card .rt b{ color:var(--paper); font-weight:600; }
+
+.hero .meta{ display:flex; gap:28px; flex-wrap:wrap; font-family:var(--mono); font-size:12.5px; color:var(--paper-faint); }
+.hero .meta b{ color:var(--paper); font-weight:500; }
+
+.hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center; margin-top:40px; }
+@media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; } }
+
+/* ---------- SECTION SCAFFOLD ---------- */
+section{ padding:88px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:48px; max-width:640px; }
+.sec-num{ font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:0.1em; margin-bottom:14px; }
+.sec-head h2{ font-family:var(--head); font-weight:600; font-size:clamp(28px,4vw,38px); margin:0 0 14px; letter-spacing:-0.01em; }
+.sec-head p{ color:var(--paper-dim); font-size:16px; margin:0; }
+
+/* ---------- SCOPE / OBJECTIVE ---------- */
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+@media (max-width:760px){ .two-col{ grid-template-columns:1fr; } }
+.obj-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:22px; }
+.obj-list li{ display:flex; gap:16px; align-items:flex-start; }
+.obj-num{ font-family:var(--mono); font-size:13px; color:var(--gold); border:1px solid var(--line-strong); border-radius:999px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; flex:none; }
+.obj-list h4{ margin:0 0 4px; font-family:var(--head); font-size:16px; font-weight:600; }
+.obj-list p{ margin:0; color:var(--paper-dim); font-size:14.5px; }
+.scope-text p{ color:var(--paper-dim); font-size:16px; }
+.scope-text p strong{ color:var(--paper); font-weight:600; }
+
+/* ---------- FOCUS AREAS ---------- */
+.focus-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+@media (max-width:820px){ .focus-grid{ grid-template-columns:1fr; } }
+.focus-card{ background:var(--ink); padding:32px 28px; }
+.focus-card .tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; padding:4px 10px; border-radius:999px; display:inline-block; margin-bottom:18px; }
+.focus-card.gold .tag{ background:var(--gold-dim); color:var(--gold); }
+.focus-card.teal .tag{ background:var(--teal-dim); color:var(--teal); }
+.focus-card.coral .tag{ background:var(--coral-dim); color:var(--coral); }
+.focus-card h3{ font-family:var(--head); font-size:20px; margin:0 0 6px; }
+.focus-card .sub{ color:var(--paper-faint); font-size:13px; margin-bottom:20px; }
+.focus-card ol{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:12px; }
+.focus-card ol li{ font-size:14px; color:var(--paper-dim); padding-left:20px; position:relative; }
+.focus-card.gold ol li::before{ content:'—'; position:absolute; left:0; color:var(--gold); }
+.focus-card.teal ol li::before{ content:'—'; position:absolute; left:0; color:var(--teal); }
+.focus-card.coral ol li::before{ content:'—'; position:absolute; left:0; color:var(--coral); }
+
+/* ---------- SPEND ---------- */
+.spend-top{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:32px; }
+@media (max-width:760px){ .spend-top{ grid-template-columns:1fr; } }
+.stat-card{ background:var(--ink); padding:26px 24px; }
+.stat-card .num{ font-family:var(--mono); font-size:34px; font-weight:600; }
+.stat-card.gold .num{ color:var(--gold); }
+.stat-card.teal .num{ color:var(--teal); }
+.stat-card.coral .num{ color:var(--coral); }
+.stat-card .label{ font-size:13px; color:var(--paper-faint); margin-top:6px; }
+
+.illus-flag{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; color:var(--paper-faint); margin-bottom:24px; letter-spacing:.02em; }
+.illus-flag .sw{ width:8px; height:8px; border-radius:2px; background:var(--gold); flex:none; }
+
+.callout{ border:1px solid var(--gold); background:linear-gradient(180deg, rgba(212,167,60,0.08), transparent); border-radius:6px; padding:28px 30px; margin-bottom:40px; display:flex; gap:24px; align-items:baseline; flex-wrap:wrap; }
+.callout .big{ font-family:var(--display); font-size:56px; color:var(--gold); line-height:1; }
+.callout .txt{ max-width:420px; color:var(--paper-dim); font-size:15px; }
+.callout .txt strong{ color:var(--paper); }
+
+.bar-row{ display:grid; grid-template-columns:170px 1fr 70px; align-items:center; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); }
+.bar-row:last-child{ border-bottom:none; }
+.bar-row .name{ font-size:13.5px; color:var(--paper-dim); }
+.bar-track{ height:8px; background:var(--ink-3); border-radius:4px; overflow:hidden; }
+.bar-fill{ height:100%; border-radius:4px; width:0; transition:width 1.1s cubic-bezier(.2,.8,.2,1); }
+.bar-fill.gold{ background:var(--gold); }
+.bar-fill.teal{ background:var(--teal); }
+.bar-fill.coral{ background:var(--coral); }
+.bar-row .val{ font-family:var(--mono); font-size:12.5px; color:var(--paper-faint); text-align:right; }
+.bar-group-label{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--paper-faint); margin:28px 0 6px; }
+
+/* ---------- LIMITATIONS ---------- */
+.limit-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); }
+.limit-item{ background:var(--ink); padding:22px 26px; display:grid; grid-template-columns:44px 1fr; gap:20px; align-items:start; }
+.limit-item .ico{ width:44px; height:44px; border-radius:50%; border:1px solid var(--coral); color:var(--coral); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:15px; }
+.limit-item p{ margin:0; color:var(--paper-dim); font-size:15px; }
+
+/* ---------- APPROACH / EV ---------- */
+.approach-intro{ color:var(--paper-dim); font-size:16px; max-width:700px; margin-bottom:56px; }
+.ev-panel{ display:grid; grid-template-columns:340px 1fr; gap:56px; align-items:center; margin-bottom:64px; }
+@media (max-width:820px){ .ev-panel{ grid-template-columns:1fr; } }
+.gauge-wrap{ display:flex; flex-direction:column; align-items:center; }
+.gauge-value{ font-family:var(--display); font-size:64px; color:var(--gold); margin-top:-58px; }
+.gauge-caption{ font-family:var(--mono); font-size:12px; color:var(--paper-faint); letter-spacing:0.08em; text-transform:uppercase; margin-top:4px; }
+.ev-factors{ display:flex; flex-direction:column; gap:18px; }
+.ev-factor{ display:flex; gap:16px; }
+.ev-factor .n{ font-family:var(--mono); color:var(--gold); font-size:13px; padding-top:2px; }
+.ev-factor h4{ margin:0 0 3px; font-family:var(--head); font-size:15px; font-weight:600; }
+.ev-factor p{ margin:0; font-size:13.5px; color:var(--paper-dim); }
+
+.rel-two{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:8px; }
+@media (max-width:760px){ .rel-two{ grid-template-columns:1fr; } }
+.rel-card{ background:var(--ink); padding:28px; }
+.rel-card h4{ font-family:var(--head); font-size:16px; margin:0 0 10px; }
+.rel-card h4 span{ font-family:var(--mono); font-size:11px; color:var(--paper-faint); display:block; text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px; }
+.rel-card p{ margin:0; font-size:14px; color:var(--paper-dim); }
+
+/* ---------- FRAMES ---------- */
+.frames-panel{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; margin-top:48px; }
+@media (max-width:900px){ .frames-panel{ grid-template-columns:1fr; } }
+#hexWrap{ display:flex; justify-content:center; }
+#hexWrap svg{ max-width:100%; height:auto; }
+.hex-vertex{ cursor:pointer; }
+.hex-vertex circle{ transition:r .2s, fill .2s; }
+.hex-vertex text{ font-family:var(--head); font-size:13px; font-weight:600; fill:var(--paper); pointer-events:none; }
+.hex-vertex .sub{ font-family:var(--mono); font-size:9.5px; fill:var(--paper-faint); pointer-events:none; }
+.hex-vertex.active circle{ r:9; }
+
+.frames-detail{ border:1px solid var(--line-strong); border-radius:8px; padding:28px; min-height:280px; background:var(--ink-2); }
+.frames-detail .letter{ font-family:var(--display); font-size:48px; color:var(--gold); line-height:1; }
+.frames-detail h3{ font-family:var(--head); font-size:20px; margin:6px 0 12px; }
+.frames-detail .meaning{ font-size:14px; color:var(--paper-dim); margin-bottom:18px; }
+.frames-detail .classes{ display:flex; flex-direction:column; gap:8px; }
+.frames-detail .cls{ display:flex; gap:10px; font-size:13px; }
+.frames-detail .cls b{ font-family:var(--mono); color:var(--teal); flex:none; width:32px; }
+.frames-detail .cls span{ color:var(--paper-dim); }
+.frames-hint{ font-family:var(--mono); font-size:11.5px; color:var(--paper-faint); margin-top:16px; letter-spacing:.02em; }
+
+/* ---------- WORKED EXAMPLE ---------- */
+.example-panel{ display:flex; flex-direction:column; gap:32px; }
+.persona-row{ display:flex; gap:14px; flex-wrap:wrap; }
+.persona-btn{ font-family:var(--head); font-size:13.5px; font-weight:600; padding:13px 20px; border-radius:8px; border:1px solid var(--line-strong); background:var(--ink-2); color:var(--paper-dim); cursor:pointer; transition:border-color .2s, color .2s, background .2s; text-align:left; }
+.persona-btn .pb-tag{ display:block; font-family:var(--mono); font-weight:400; font-size:10.5px; color:var(--paper-faint); letter-spacing:.06em; text-transform:uppercase; margin-top:3px; }
+.persona-btn:hover{ border-color:var(--teal); color:var(--paper); }
+.persona-btn.active{ border-color:var(--gold); color:var(--gold); background:var(--gold-dim); }
+.persona-btn.active .pb-tag{ color:var(--gold); opacity:0.75; }
+.example-visuals{ display:grid; grid-template-columns:280px 1fr; gap:40px; align-items:center; padding:8px 0; }
+@media (max-width:760px){ .example-visuals{ grid-template-columns:1fr; justify-items:center; text-align:center; } }
+.example-gauge{ display:flex; flex-direction:column; align-items:center; }
+#hexWrap2{ display:flex; justify-content:center; }
+#hexWrap2 svg{ max-width:100%; height:auto; }
+.example-narrative{ border:1px solid var(--line-strong); border-radius:8px; padding:24px 26px; background:var(--ink-2); transition:border-color .3s; }
+.example-narrative p{ margin:0 0 16px; font-size:15px; color:var(--paper-dim); line-height:1.6; }
+.example-narrative .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+.chip{ font-family:var(--mono); font-size:11.5px; padding:5px 12px; border-radius:999px; border:1px solid var(--line-strong); color:var(--paper-faint); }
+
+/* ---------- KEY POINTS ---------- */
+.kp-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+@media (max-width:760px){ .kp-grid{ grid-template-columns:1fr; } }
+.kp-card{ background:var(--ink); padding:30px 28px; }
+.kp-card .eyebrow2{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+.kp-card h4{ font-family:var(--head); font-size:17px; margin:0 0 10px; }
+.kp-card p{ font-size:14px; color:var(--paper-dim); margin:0 0 10px; }
+.kp-card ul{ margin:0; padding-left:18px; color:var(--paper-dim); font-size:13.5px; display:flex; flex-direction:column; gap:6px; }
+
+/* ---------- ROADMAP ---------- */
+.timeline{ position:relative; padding-left:36px; }
+.timeline::before{ content:''; position:absolute; left:11px; top:6px; bottom:6px; width:1px; background:var(--line-strong); }
+.tl-item{ position:relative; padding-bottom:34px; }
+.tl-item:last-child{ padding-bottom:0; }
+.tl-item::before{ content:attr(data-n); position:absolute; left:-36px; top:0; width:24px; height:24px; border-radius:50%; background:var(--ink-2); border:1px solid var(--gold); color:var(--gold); font-family:var(--mono); font-size:11px; display:flex; align-items:center; justify-content:center; }
+.tl-item h4{ margin:0 0 4px; font-family:var(--head); font-size:15.5px; }
+.tl-item p{ margin:0; font-size:13.5px; color:var(--paper-dim); max-width:600px; }
+
+/* ---------- SKILLS ---------- */
+.skills-wrap{ display:flex; flex-wrap:wrap; gap:10px; }
+.skill-pill{ font-family:var(--mono); font-size:12px; color:var(--paper-dim); border:1px solid var(--line-strong); padding:7px 14px; border-radius:999px; }
+
+/* ---------- FOOTER ---------- */
+footer{ padding:56px 0 80px; border-top:1px solid var(--line); }
+.demo-note{ font-family:var(--mono); font-size:12px; color:var(--paper-faint); line-height:1.7; max-width:640px; margin-bottom:28px; }
+footer .credit{ font-size:13px; color:var(--paper-faint); }
+footer .credit b{ color:var(--paper); font-weight:500; }
+</style>
+</head>
+<body>
+
+<div class="ctx-banner">
+  <div class="wrap">
+    <span class="dot"></span>
+    <p><b>Portfolio case study.</b> Company identity, exact figures, and product-specific naming have been anonymized or replaced with illustrative data. The scoring methodology (EV) and the FRAMES framework were designed by me.</p>
+  </div>
+</div>
+
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">ENGAGEMENT VALUE <span>Case Study</span></div>
+    <ul class="navlinks">
+      <li><a href="#focus">Focus</a></li>
+      <li><a href="#spend">Spend Mix</a></li>
+      <li><a href="#approach">EV</a></li>
+      <li><a href="#frames">FRAMES</a></li>
+      <li><a href="#example">Example</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Retention strategy · Growth Marketing</div>
+    <h1>Designing a single number for <em>customer relationship value</em>.</h1>
+
+    <div class="hero-grid">
+      <div>
+        <p class="lede">A retention spend framework I designed for a large real-money gaming platform in India — replacing calendar-driven campaigns with a customer-level score that tells the business exactly who's worth investing in, and how much.</p>
+
+        <div class="role-card">
+          <div class="avatar">SK</div>
+          <div class="rt"><b>Sai Krishna Katla</b> — Manager, Growth &amp; Retention Marketing<br>Designed and proposed this framework as the strategic bridge between Growth and Data Science/BI.</div>
+        </div>
+
+        <div class="meta">
+          <div><b>Multi-million</b> monthly active users</div>
+          <div><b>Cross-functional</b> — Growth, Data Science, BI</div>
+        </div>
+      </div>
+      <div class="gauge-wrap">
+        <svg id="heroGauge" width="320" height="200" viewBox="0 0 320 200"></svg>
+        <div class="gauge-value" id="heroGaugeVal">3.2</div>
+        <div class="gauge-caption">Engagement Value · illustrative</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="scope">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">01 — Problem &amp; Objective</div>
+      <h2>Spend with precision, not just intent.</h2>
+    </div>
+    <div class="two-col">
+      <div class="scope-text reveal">
+        <p>The platform's retention spend was driven largely by calendar and occasion — weekends, paydays, month-end — rather than by what each customer had actually earned in return. I set out to turn historical behaviour and experimentation into <strong>targeted, accountable spend</strong>, closing the loop between customer insight and budget allocation.</p>
+      </div>
+      <ul class="obj-list reveal">
+        <li>
+          <div class="obj-num">1</div>
+          <div><h4>Deliver efficiency</h4><p>Channelise spend to achieve growth at optimal pressure — not every rupee needs to be spent to earn a return.</p></div>
+        </li>
+        <li>
+          <div class="obj-num">2</div>
+          <div><h4>Deliver growth</h4><p>Maximise revenue through deliberate, targeted increases in spend precisely where they compound.</p></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="focus">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">02 — Current Focus</div>
+      <h2>Three levers, one player journey.</h2>
+      <p>Retention spend sustains the business across three moments in a player's lifecycle — while opening the door to new growth.</p>
+    </div>
+    <div class="focus-grid reveal">
+      <div class="focus-card gold">
+        <span class="tag">Money-in</span>
+        <h3>Purchases</h3>
+        <div class="sub">Campaigns that drive deposits</div>
+        <ol>
+          <li>Payday &amp; weekend purchase bonuses</li>
+          <li>Lifecycle &amp; segmentation-based campaigns</li>
+          <li>Regulatory-linked cashback, delivered as bonus</li>
+        </ol>
+      </div>
+      <div class="focus-card teal">
+        <span class="tag">Engagement</span>
+        <h3>Play &amp; Login</h3>
+        <div class="sub">Campaigns that drive activity</div>
+        <ol>
+          <li>Gameplay — challenges, missions, leaderboards, streak rewards</li>
+          <li>Logins — vouchers, tournaments, subscription passes</li>
+          <li>Bet upsell / cross-sell via subscription passes</li>
+        </ol>
+      </div>
+      <div class="focus-card coral">
+        <span class="tag">Money-out</span>
+        <h3>Withdrawals</h3>
+        <div class="sub">Campaigns shaped by redeem intent</div>
+        <ol>
+          <li><b>Reactive</b> — smart offers triggered at the moment of redeem</li>
+          <li><b>Proactive</b> — targeting before a redeem decision is made</li>
+          <li>Pass-linked offers after a game session ends</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="spend">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">03 — Spend Mix</div>
+      <h2>Where retention spend actually goes.</h2>
+      <p>Illustrative distribution, representative of the mix I analysed — anonymized for confidentiality.</p>
+    </div>
+
+    <div class="illus-flag reveal"><span class="sw"></span> Figures below are illustrative, not the platform's actual numbers</div>
+
+    <div class="spend-top reveal">
+      <div class="stat-card gold"><div class="num">~80%</div><div class="label">Money-in — purchase &amp; cashback spend</div></div>
+      <div class="stat-card teal"><div class="num">~16%</div><div class="label">Engagement — play &amp; login spend</div></div>
+      <div class="stat-card coral"><div class="num">~4%</div><div class="label">Money-out — withdrawal-linked spend</div></div>
+    </div>
+
+    <div class="callout reveal">
+      <div class="big">~75%</div>
+      <div class="txt"><strong>One cashback mechanic</strong> was found to dominate the entire retention budget — roughly three in every four rupees spent, largely on autopilot. Everything else below shares the remaining quarter.</div>
+    </div>
+
+    <div class="reveal" id="barChart">
+      <div class="bar-group-label">Money-in — remaining</div>
+      <div class="bar-row"><div class="name">Payday / Weekend</div><div class="bar-track"><div class="bar-fill gold" data-w="2.0"></div></div><div class="val">2.0%</div></div>
+      <div class="bar-row"><div class="name">Loyalty</div><div class="bar-track"><div class="bar-fill gold" data-w="1.7"></div></div><div class="val">1.7%</div></div>
+      <div class="bar-row"><div class="name">Lifecycle</div><div class="bar-track"><div class="bar-fill gold" data-w="0.5"></div></div><div class="val">0.5%</div></div>
+      <div class="bar-row"><div class="name">Others</div><div class="bar-track"><div class="bar-fill gold" data-w="0.5"></div></div><div class="val">0.5%</div></div>
+
+      <div class="bar-group-label">Engagement</div>
+      <div class="bar-row"><div class="name">Challenges</div><div class="bar-track"><div class="bar-fill teal" data-w="9.6"></div></div><div class="val">9.6%</div></div>
+      <div class="bar-row"><div class="name">Leaderboard</div><div class="bar-track"><div class="bar-fill teal" data-w="2.2"></div></div><div class="val">2.2%</div></div>
+      <div class="bar-row"><div class="name">Tournaments</div><div class="bar-track"><div class="bar-fill teal" data-w="1.5"></div></div><div class="val">1.5%</div></div>
+      <div class="bar-row"><div class="name">Vouchers</div><div class="bar-track"><div class="bar-fill teal" data-w="0.8"></div></div><div class="val">0.8%</div></div>
+      <div class="bar-row"><div class="name">Loyalty vouchers</div><div class="bar-track"><div class="bar-fill teal" data-w="0.7"></div></div><div class="val">0.7%</div></div>
+      <div class="bar-row"><div class="name">Loyalty points</div><div class="bar-track"><div class="bar-fill teal" data-w="0.6"></div></div><div class="val">0.6%</div></div>
+      <div class="bar-row"><div class="name">Streak rewards</div><div class="bar-track"><div class="bar-fill teal" data-w="0.3"></div></div><div class="val">0.3%</div></div>
+      <div class="bar-row"><div class="name">Subscription pass</div><div class="bar-track"><div class="bar-fill teal" data-w="0.1"></div></div><div class="val">0.1%</div></div>
+
+      <div class="bar-group-label">Money-out</div>
+      <div class="bar-row"><div class="name">Reactivation</div><div class="bar-track"><div class="bar-fill coral" data-w="3.4"></div></div><div class="val">3.4%</div></div>
+      <div class="bar-row"><div class="name">Pass-linked offers</div><div class="bar-track"><div class="bar-fill coral" data-w="0.3"></div></div><div class="val">0.3%</div></div>
+      <div class="bar-row"><div class="name">Smart redeem offer</div><div class="bar-track"><div class="bar-fill coral" data-w="0.2"></div></div><div class="val">0.2%</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="limitations">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">04 — What I Found</div>
+      <h2>What a calendar-driven model misses.</h2>
+      <p>The existing strategy delivered on business outcomes, but not with the precision to make every rupee count — and it occasionally clashed with other value systems already in place.</p>
+    </div>
+    <div class="limit-list reveal">
+      <div class="limit-item"><div class="ico">1</div><p>Spend reaches customers who were never going to yield the outcome it was meant to drive.</p></div>
+      <div class="limit-item"><div class="ico">2</div><p>Additional spend lands on customers where no incremental return was ever likely.</p></div>
+      <div class="limit-item"><div class="ico">3</div><p>Growth opportunities across the base go unidentified — or identified too late to capitalise on.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">05 — My Approach</div>
+      <h2>Introducing Engagement Value (EV).</h2>
+      <p class="approach-intro">The platform already ran two reward programmes: a <b style="color:var(--paper)">Loyalty</b> track measured over the mid-term via wager milestones, and a <b style="color:var(--paper)">Retention</b> track measured monthly and shaped by market and budget factors. Both were useful — neither quantified a customer's total relationship with the business. I designed EV to be that single number: a 1–5 score representing a customer's full relationship value, used to calibrate retention spend without over- or under-investing.</p>
+    </div>
+
+    <div class="ev-panel reveal">
+      <div class="gauge-wrap">
+        <svg id="evGauge" width="320" height="200" viewBox="0 0 320 200"></svg>
+        <div class="gauge-value" id="evGaugeVal">1–5</div>
+        <div class="gauge-caption">EV score range</div>
+      </div>
+      <div class="ev-factors">
+        <div class="ev-factor"><div class="n">01</div><div><h4>Long-horizon frequency</h4><p>How often the customer plays across a trailing multi-month window — recurring and reactivated play alike.</p></div></div>
+        <div class="ev-factor"><div class="n">02</div><div><h4>Monthly active days</h4><p>Within a given month, how many distinct days the customer typically plays.</p></div></div>
+        <div class="ev-factor"><div class="n">03</div><div><h4>Gross revenue generated</h4><p>Total revenue the customer has generated over the same trailing window.</p></div></div>
+        <div class="ev-factor"><div class="n">04</div><div><h4>Net revenue generated</h4><p>Net revenue over the same horizon — the number that actually matters to the business.</p></div></div>
+        <div class="ev-factor"><div class="n">05</div><div><h4>Spend pressure</h4><p>Retention spend as a percentage of gross revenue — how much it costs to keep this customer engaged.</p></div></div>
+      </div>
+    </div>
+
+    <div class="rel-two reveal">
+      <div class="rel-card"><h4><span>Long horizon</span>Loyalty</h4><p>Rewards value created over the mid-term relationship. Runs near-uniformly for every registered customer, measured chiefly against preset wager milestones.</p></div>
+      <div class="rel-card"><h4><span>Short horizon</span>Retention</h4><p>Rewards value created monthly or weekly. Shifts frequently with market, budget and business factors — this is the layer EV was designed to sharpen.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="frames">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">06 — FRAMES</div>
+      <h2>Six signals, refreshed daily, that keep EV honest.</h2>
+      <p>EV describes value over the long run. I built FRAMES as its short-term companion — watching the last 30 days, catching deviation early enough to intervene before it shows up in next month's score.</p>
+    </div>
+    <div class="frames-panel reveal">
+      <div id="hexWrap"></div>
+      <div class="frames-detail" id="framesDetail">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="example">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">07 — Worked Example</div>
+      <h2>Watch a score move.</h2>
+      <p>Three anonymized, illustrative player profiles — same six signals, very different reads. Select a profile to see EV and FRAMES respond.</p>
+    </div>
+    <div class="example-panel reveal">
+      <div class="persona-row" id="personaRow"></div>
+      <div class="example-visuals">
+        <div class="example-gauge">
+          <svg id="exampleGauge" width="280" height="180" viewBox="0 0 320 200"></svg>
+          <div class="gauge-value" id="exampleGaugeVal">3.2</div>
+          <div class="gauge-caption">Engagement Value</div>
+        </div>
+        <div id="hexWrap2"></div>
+      </div>
+      <div class="example-narrative" id="exampleNarrative"></div>
+    </div>
+  </div>
+</section>
+
+<section id="keypoints">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">08 — How It Runs</div>
+      <h2>Operating the framework, once live.</h2>
+    </div>
+    <div class="kp-grid reveal">
+      <div class="kp-card">
+        <div class="eyebrow2">Update frequency</div>
+        <h4>Monthly EV, daily FRAMES</h4>
+        <p>EV recalculates once a month for every customer — except new customers, held back for a ramp-up period until there's enough signal to read behaviour reliably. FRAMES updates daily, tracking interventions as they land.</p>
+      </div>
+      <div class="kp-card">
+        <div class="eyebrow2">Budget allocation</div>
+        <h4>From calendar to cohort</h4>
+        <p>Budget shifts from being allocated by occasion — inactivity, upsell, weekend, month-end — to being allocated by EV cohort.</p>
+        <ul>
+          <li>Right pressure, held at the customer level</li>
+          <li>Growth &amp; efficiency targets set per EV cohort</li>
+          <li>Programmes mapped to objective via EV — who to upsell, and when</li>
+          <li>Net revenue kept in check daily and weekly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">09 — Rollout Plan</div>
+      <h2>Eight steps from proposal to autopilot.</h2>
+      <p>The build sequence I laid out once the approach had stakeholder buy-in.</p>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item" data-n="1"><h4>Score EV across the base</h4><p>Complete EV scoring for the full active-user base using trailing behavioural history.</p></div>
+      <div class="tl-item" data-n="2"><h4>Define FRAMES classes</h4><p>Finalise the dimensions and classes within FRAMES.</p></div>
+      <div class="tl-item" data-n="3"><h4>Build the data model</h4><p>Stand up a warehouse model that updates every value at its intended frequency.</p></div>
+      <div class="tl-item" data-n="4"><h4>Consume for budget &amp; campaigns</h4><p>Let EV and FRAMES actually drive spend allocation and campaign targeting.</p></div>
+      <div class="tl-item" data-n="5"><h4>Push classes to activation tools</h4><p>Sync EV classes into the CRM/engagement stack in use for campaign execution.</p></div>
+      <div class="tl-item" data-n="6"><h4>Publish dashboards</h4><p>Report on EV cohorts and player transitions against intervention campaigns and their impact.</p></div>
+      <div class="tl-item" data-n="7"><h4>Test player-level monitoring</h4><p>Validate the ability to track every player's transitions, growth and efficiency.</p></div>
+      <div class="tl-item" data-n="8"><h4>Automate</h4><p>Once tested and value is assessed, automate the retention strategy end to end.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">10 — Skills Demonstrated</div>
+      <h2>What this project drew on.</h2>
+    </div>
+    <div class="skills-wrap reveal">
+      <span class="skill-pill">Retention strategy</span>
+      <span class="skill-pill">Customer lifetime value modeling</span>
+      <span class="skill-pill">Segmentation &amp; scoring frameworks</span>
+      <span class="skill-pill">Cross-functional stakeholder alignment</span>
+      <span class="skill-pill">Marketing spend optimization</span>
+      <span class="skill-pill">CRM / lifecycle marketing</span>
+      <span class="skill-pill">Data-driven decision design</span>
+      <span class="skill-pill">Product thinking for growth</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="demo-note">This case study presents a retention framework I independently conceptualized and proposed while working in Growth &amp; Retention Marketing at a large gaming platform. Company name, exact financial figures, and proprietary product naming have been anonymized or generalized; the underlying strategic thinking, scoring methodology, and framework structure are my own original work.</p>
+    <div class="credit"><b>Sai Krishna Katla</b> — Growth &amp; Retention Marketing</div>
+  </div>
+</footer>
+
+<script>
+// ---------- Reveal on scroll ----------
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{ threshold:0.12 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ---------- Gauge builder (semicircle 1-5) ----------
+function buildGauge(svgId, value){
+  const svg = document.getElementById(svgId);
+  const cx = 160, cy = 170, r = 130;
+  const startAngle = 180;
+  function polar(angleDeg, radius){
+    const a = (angleDeg * Math.PI) / 180;
+    return { x: cx + radius * Math.cos(a), y: cy - radius * Math.sin(a) };
+  }
+  function arcPath(a1, a2, radius){
+    const p1 = polar(a1, radius), p2 = polar(a2, radius);
+    const large = Math.abs(a1 - a2) > 180 ? 1 : 0;
+    return `M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} 0 ${p2.x} ${p2.y}`;
+  }
+  const segColors = ['#E2604F','#E2604F','#D4A73C','#D4A73C','#4FBDBA'];
+  const segCount = 5;
+  let html = '';
+  for(let i=0;i<segCount;i++){
+    const a1 = startAngle - (i * (startAngle/segCount));
+    const a2 = startAngle - ((i+1) * (startAngle/segCount));
+    html += `<path d="${arcPath(a1,a2,r)}" stroke="${segColors[i]}" stroke-width="14" fill="none" stroke-linecap="butt" opacity="0.85"/>`;
+  }
+  for(let i=0;i<=5;i++){
+    const ang = startAngle - (i*(startAngle/5));
+    const p1 = polar(ang, r+14), p2 = polar(ang, r+2);
+    html += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="rgba(237,234,224,0.4)" stroke-width="1.5"/>`;
+    const lp = polar(ang, r+28);
+    html += `<text x="${lp.x}" y="${lp.y+4}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="rgba(237,234,224,0.5)">${i===0?'':i}</text>`;
+  }
+  const clampVal = Math.max(0, Math.min(5, value));
+  const needleAngle = startAngle - (clampVal * (startAngle/5));
+  const tip = polar(needleAngle, r-24);
+  html += `<line x1="${cx}" y1="${cy}" x2="${tip.x}" y2="${tip.y}" stroke="#EDEAE0" stroke-width="3" stroke-linecap="round"/>`;
+  html += `<circle cx="${cx}" cy="${cy}" r="7" fill="#EDEAE0"/>`;
+  svg.innerHTML = html;
+}
+buildGauge('heroGauge', 3.2);
+buildGauge('evGauge', 3.2);
+
+// ---------- Bar chart animate ----------
+const barIO = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(f=>{
+        const w = parseFloat(f.dataset.w);
+        const pct = Math.min(100, (w/9.6)*100);
+        requestAnimationFrame(()=>{ f.style.width = pct + '%'; });
+      });
+      barIO.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+const bc = document.getElementById('barChart');
+if(bc) barIO.observe(bc);
+
+// ---------- FRAMES hexagon ----------
+const framesData = [
+  { letter:'F', name:'Frequency', meaning:'Play frequency over the last 30 days.', classes:[
+    ['F1','Highly frequent — ≥22 days'],
+    ['F2','Moderately frequent — 15–21 days'],
+    ['F3','Less frequent — 5–14 days'],
+    ['F4','Hardly frequent — ≤4 days'],
+  ]},
+  { letter:'R', name:'Recency', meaning:'Number of days active in the last 7 days.', classes:[
+    ['R1','Active this week — 1–7 days'],
+    ['R0','Not active this week — 0 days'],
+  ]},
+  { letter:'A', name:'Affinity', meaning:'How the customer responds to specific programme types — tournaments, missions, bonuses, streak rewards.', classes:[
+    ['A1','Bonus-affined'],
+    ['A2','Tournament-affined'],
+    ['A3','Missions / leaderboard / pass / streak-affined'],
+    ['G1','Category A-affined'],
+    ['G2','Category B-affined'],
+    ['G3','Other categories-affined'],
+  ]},
+  { letter:'M', name:'Monetary', meaning:'Net revenue generated and the spend pressure required to generate it, over the last 30 days.', classes:[
+    ['M1','Net revenue — max'],
+    ['M2','Net revenue — moderate'],
+    ['M3','Net revenue — min'],
+    ['P1','Spend pressure — min'],
+    ['P2','Spend pressure — moderate'],
+    ['P3','Spend pressure — medium'],
+    ['P4','Spend pressure — max'],
+  ]},
+  { letter:'E', name:'Effective communication', meaning:'Affinity to content, tone and timing of communication, plus daily active time — tracked by channel.', classes:[
+    ['—','Content, tone &amp; timing classes — in progress'],
+  ]},
+  { letter:'S', name:'Satisfaction index', meaning:'A measure of the customer\u2019s satisfaction with the platform over the last 30 days.', classes:[
+    ['—','Definition in progress'],
+  ]},
+];
+
+function buildHex(){
+  const size = 380, cx = size/2, cy = size/2, r = 140;
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+  svg.setAttribute('width', size); svg.setAttribute('height', size);
+
+  const pts = framesData.map((d,i)=>{
+    const angle = -90 + i*60;
+    const a = angle*Math.PI/180;
+    return { x: cx + r*Math.cos(a), y: cy + r*Math.sin(a) };
+  });
+
+  let gridHtml = '';
+  [0.33,0.66,1].forEach(scale=>{
+    const ringPts = framesData.map((d,i)=>{
+      const angle = -90+i*60, a = angle*Math.PI/180;
+      return `${cx+r*scale*Math.cos(a)},${cy+r*scale*Math.sin(a)}`;
+    }).join(' ');
+    gridHtml += `<polygon points="${ringPts}" fill="none" stroke="rgba(237,234,224,0.12)" stroke-width="1"/>`;
+  });
+  pts.forEach(p=>{ gridHtml += `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="rgba(237,234,224,0.1)" stroke-width="1"/>`; });
+
+  const sample = [0.8,0.5,0.65,0.9,0.4,0.7];
+  const samplePts = framesData.map((d,i)=>{
+    const angle=-90+i*60, a=angle*Math.PI/180, sr = r*sample[i];
+    return `${cx+sr*Math.cos(a)},${cy+sr*Math.sin(a)}`;
+  }).join(' ');
+  gridHtml += `<polygon points="${samplePts}" fill="rgba(212,167,60,0.14)" stroke="#D4A73C" stroke-width="1.5"/>`;
+
+  svg.innerHTML = gridHtml;
+
+  framesData.forEach((d,i)=>{
+    const p = pts[i];
+    const g = document.createElementNS(ns,'g');
+    g.setAttribute('class','hex-vertex');
+    g.setAttribute('data-idx', i);
+    g.innerHTML = `
+      <circle cx="${p.x}" cy="${p.y}" r="7" fill="#0A0F1A" stroke="#D4A73C" stroke-width="2"/>
+      <text x="${p.x}" y="${p.y - 18}" text-anchor="middle">${d.letter}</text>
+      <text class="sub" x="${p.x}" y="${p.y + (p.y>cy?30:-30)}" text-anchor="middle">${d.name}</text>
+    `;
+    g.addEventListener('click', ()=>selectFrame(i));
+    g.addEventListener('mouseenter', ()=>selectFrame(i));
+    svg.appendChild(g);
+  });
+
+  document.getElementById('hexWrap').appendChild(svg);
+}
+
+function selectFrame(i){
+  document.querySelectorAll('.hex-vertex').forEach(v=>v.classList.remove('active'));
+  const v = document.querySelector(`.hex-vertex[data-idx="${i}"]`);
+  if(v) v.classList.add('active');
+  const d = framesData[i];
+  const detail = document.getElementById('framesDetail');
+  detail.innerHTML = `
+    <div class="letter">${d.letter}</div>
+    <h3>${d.name}</h3>
+    <div class="meaning">${d.meaning}</div>
+    <div class="classes">
+      ${d.classes.map(c=>`<div class="cls"><b>${c[0]}</b><span>${c[1]}</span></div>`).join('')}
+    </div>
+    <div class="frames-hint">Click a vertex on the hexagon to explore each dimension.</div>
+  `;
+}
+
+buildHex();
+selectFrame(0);
+
+// ================= WORKED EXAMPLE (animated) =================
+const personas = [
+  {
+    name:'Consistent High-Value',
+    tag:'Low risk',
+    ev:4.6,
+    radar:[0.95,0.9,0.7,0.9,0.6,0.85],
+    chips:['F1 · ≥22 days','R1 · active this week','P1 · low spend pressure','M1 · high net revenue'],
+    narrative:'High long-term value, still fully engaged, and costing very little to retain. The read here is to protect the relationship with light-touch recognition — not to spend harder for a return that\u2019s already secure.'
+  },
+  {
+    name:'At Risk / Lapsing',
+    tag:'Needs intervention',
+    ev:2.1,
+    radar:[0.25,0.15,0.4,0.35,0.3,0.3],
+    chips:['F4 · ≤4 days','R0 · inactive this week','P4 · high spend pressure','M3 · low net revenue'],
+    narrative:'Frequency and recency are both falling, yet spend pressure is already high — the business is paying more to retain a customer who is engaging less. This is a candidate to redesign the offer, not to increase it further.'
+  },
+  {
+    name:'Recently Reactivated',
+    tag:'Early signal',
+    ev:3.0,
+    radar:[0.6,0.85,0.55,0.5,0.45,0.55],
+    chips:['F2 · 15–21 days','R1 · active this week','A2 · tournament-affined','M2 · moderate net revenue'],
+    narrative:'Just came back, and the first week of signals looks strong. FRAMES flags this early — but EV won\u2019t move until next month\u2019s cycle confirms the pattern holds, which is exactly the gap this daily layer exists to cover.'
+  }
+];
+
+let exGaugeVal = personas[0].ev;
+let exRadarVals = personas[0].radar.slice();
+let exActiveIdx = 0;
+
+function drawGaugeStatic(svgId){
+  const svg = document.getElementById(svgId);
+  const cx = 160, cy = 170, r = 130;
+  function polar(angleDeg, radius){
+    const a = (angleDeg * Math.PI) / 180;
+    return { x: cx + radius * Math.cos(a), y: cy - radius * Math.sin(a) };
+  }
+  function arcPath(a1, a2, radius){
+    const p1 = polar(a1, radius), p2 = polar(a2, radius);
+    const large = Math.abs(a1 - a2) > 180 ? 1 : 0;
+    return `M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} 0 ${p2.x} ${p2.y}`;
+  }
+  const segColors = ['#E2604F','#E2604F','#D4A73C','#D4A73C','#4FBDBA'];
+  let html = '';
+  for(let i=0;i<5;i++){
+    const a1 = 180 - (i*36), a2 = 180 - ((i+1)*36);
+    html += `<path d="${arcPath(a1,a2,r)}" stroke="${segColors[i]}" stroke-width="14" fill="none" opacity="0.85"/>`;
+  }
+  for(let i=0;i<=5;i++){
+    const ang = 180 - (i*36);
+    const p1 = polar(ang, r+14), p2 = polar(ang, r+2);
+    html += `<line x1="${p1.x}" y1="${p1.y}" x2="${p2.x}" y2="${p2.y}" stroke="rgba(237,234,224,0.4)" stroke-width="1.5"/>`;
+    const lp = polar(ang, r+28);
+    html += `<text x="${lp.x}" y="${lp.y+4}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="rgba(237,234,224,0.5)">${i===0?'':i}</text>`;
+  }
+  html += `<g id="${svgId}-needle"></g>`;
+  svg.innerHTML = html;
+}
+function drawNeedle(svgId, value){
+  const cx = 160, cy = 170, r = 130;
+  const g = document.getElementById(svgId+'-needle');
+  if(!g) return;
+  const clampVal = Math.max(0, Math.min(5, value));
+  const angle = 180 - (clampVal * 36);
+  const a = angle*Math.PI/180;
+  const tip = { x: cx + (r-24)*Math.cos(a), y: cy - (r-24)*Math.sin(a) };
+  g.innerHTML = `<line x1="${cx}" y1="${cy}" x2="${tip.x}" y2="${tip.y}" stroke="#EDEAE0" stroke-width="3" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="7" fill="#EDEAE0"/>`;
+}
+drawGaugeStatic('exampleGauge');
+drawNeedle('exampleGauge', exGaugeVal);
+
+function createRadar(containerId){
+  const size = 300, cx = size/2, cy = size/2, r = 110;
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+  svg.setAttribute('width', size); svg.setAttribute('height', size);
+  const labels = ['F','R','A','M','E','S'];
+  let html = '';
+  [0.33,0.66,1].forEach(scale=>{
+    const ringPts = labels.map((l,i)=>{
+      const angle=-90+i*60, a=angle*Math.PI/180;
+      return `${cx+r*scale*Math.cos(a)},${cy+r*scale*Math.sin(a)}`;
+    }).join(' ');
+    html += `<polygon points="${ringPts}" fill="none" stroke="rgba(237,234,224,0.12)" stroke-width="1"/>`;
+  });
+  labels.forEach((l,i)=>{
+    const angle=-90+i*60, a=angle*Math.PI/180;
+    const sx = cx+r*Math.cos(a), sy = cy+r*Math.sin(a);
+    html += `<line x1="${cx}" y1="${cy}" x2="${sx}" y2="${sy}" stroke="rgba(237,234,224,0.1)" stroke-width="1"/>`;
+    const lp = { x: cx+(r+22)*Math.cos(a), y: cy+(r+22)*Math.sin(a) };
+    html += `<text x="${lp.x}" y="${lp.y+4}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="600" font-size="14" fill="#EDEAE0">${l}</text>`;
+  });
+  html += `<polygon id="${containerId}-poly" points="" fill="rgba(212,167,60,0.16)" stroke="#D4A73C" stroke-width="1.5"/>`;
+  svg.innerHTML = html;
+  document.getElementById(containerId).innerHTML = '';
+  document.getElementById(containerId).appendChild(svg);
+  return { cx, cy, r };
+}
+function radarPoints(geo, values){
+  return values.map((v,i)=>{
+    const angle=-90+i*60, a=angle*Math.PI/180, sr = geo.r*v;
+    return `${geo.cx+sr*Math.cos(a)},${geo.cy+sr*Math.sin(a)}`;
+  }).join(' ');
+}
+const exGeo = createRadar('hexWrap2');
+document.getElementById('hexWrap2-poly').setAttribute('points', radarPoints(exGeo, exRadarVals));
+
+function easeOutCubic(t){ return 1 - Math.pow(1-t,3); }
+function animateTo(newEv, newRadar){
+  const startEv = exGaugeVal, startRadar = exRadarVals.slice();
+  const duration = 750;
+  const t0 = performance.now();
+  function step(now){
+    const elapsed = now - t0;
+    const t = Math.min(1, elapsed/duration);
+    const e = easeOutCubic(t);
+    const curEv = startEv + (newEv-startEv)*e;
+    const curRadar = startRadar.map((v,i)=> v + (newRadar[i]-v)*e);
+    drawNeedle('exampleGauge', curEv);
+    document.getElementById('exampleGaugeVal').textContent = curEv.toFixed(1);
+    document.getElementById('hexWrap2-poly').setAttribute('points', radarPoints(exGeo, curRadar));
+    if(t < 1){ requestAnimationFrame(step); }
+    else{ exGaugeVal = newEv; exRadarVals = newRadar.slice(); }
+  }
+  requestAnimationFrame(step);
+}
+
+function buildPersonaRow(){
+  const row = document.getElementById('personaRow');
+  row.innerHTML = personas.map((p,i)=>`
+    <button class="persona-btn${i===0?' active':''}" data-idx="${i}">${p.name}<span class="pb-tag">${p.tag}</span></button>
+  `).join('');
+  row.querySelectorAll('.persona-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>selectPersona(parseInt(btn.dataset.idx,10)));
+  });
+}
+function selectPersona(idx){
+  exActiveIdx = idx;
+  document.querySelectorAll('.persona-btn').forEach((b,i)=>b.classList.toggle('active', i===idx));
+  const p = personas[idx];
+  animateTo(p.ev, p.radar);
+  document.getElementById('exampleNarrative').innerHTML = `
+    <p>${p.narrative}</p>
+    <div class="chips">${p.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+  `;
+}
+buildPersonaRow();
+selectPersona(0);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Studies | Sai Krishna Katla</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink: #0A0F1A;
+  --ink-2: #111A2B;
+  --ink-3: #182236;
+  --line: rgba(237,234,224,0.10);
+  --line-strong: rgba(237,234,224,0.22);
+  --paper: #EDEAE0;
+  --paper-dim: rgba(237,234,224,0.62);
+  --paper-faint: rgba(237,234,224,0.38);
+  --gold: #D4A73C;
+  --gold-dim: rgba(212,167,60,0.16);
+  --teal: #4FBDBA;
+  --teal-dim: rgba(79,189,186,0.16);
+  --coral: #E2604F;
+  --coral-dim: rgba(226,96,79,0.16);
+
+  --display: 'Instrument Serif', serif;
+  --head: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+body{ margin:0; background:var(--ink); color:var(--paper); font-family:var(--body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+::selection{ background:var(--gold); color:var(--ink); }
+a{color:inherit; text-decoration:none;}
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+.wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+@media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ---------- HERO ---------- */
+.hero{ padding:88px 0 56px; position:relative; overflow:hidden; }
+.hero::before{ content:''; position:absolute; inset:-20% -10% auto -10%; height:480px;
+  background:radial-gradient(ellipse at 25% 20%, rgba(212,167,60,0.10), transparent 60%), radial-gradient(ellipse at 78% 40%, rgba(79,189,186,0.08), transparent 55%);
+  pointer-events:none; }
+.eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.eyebrow::before{ content:''; width:24px; height:1px; background:var(--teal); }
+.hero h1{ font-family:var(--display); font-weight:400; font-size:clamp(40px,7vw,76px); line-height:1.04; margin:0 0 22px; letter-spacing:-0.01em; max-width:760px; }
+.hero h1 em{ font-style:italic; color:var(--gold); }
+.hero p.lede{ font-size:18px; color:var(--paper-dim); max-width:600px; margin:0 0 8px; }
+
+.meta-row{ display:flex; gap:24px; flex-wrap:wrap; font-family:var(--mono); font-size:12.5px; color:var(--paper-faint); margin-top:28px; }
+.meta-row b{ color:var(--paper); font-weight:500; }
+
+/* ---------- FILTER / TAGS (decorative index) ---------- */
+.index-bar{ display:flex; gap:10px; flex-wrap:wrap; margin-top:32px; }
+.index-pill{ font-family:var(--mono); font-size:11.5px; padding:7px 14px; border-radius:999px; border:1px solid var(--line-strong); color:var(--paper-faint); }
+
+/* ---------- PROJECT GRID ---------- */
+.projects{ padding:24px 0 96px; }
+.project-grid{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:40px; }
+
+.project-card{ display:grid; grid-template-columns:64px 1fr auto; gap:24px; align-items:center; background:var(--ink); padding:32px 30px; transition:background .25s; position:relative; }
+.project-card:hover{ background:var(--ink-2); }
+.project-card:hover .pc-arrow{ transform:translateX(4px); opacity:1; }
+.project-card:hover .pc-title{ color:var(--accent, var(--gold)); }
+
+@media (max-width:760px){
+  .project-card{ grid-template-columns:44px 1fr; padding:26px 22px; }
+  .pc-arrow{ display:none; }
+}
+
+.pc-num{ font-family:var(--mono); font-size:13px; color:var(--accent, var(--gold)); border:1px solid var(--line-strong); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex:none; }
+
+.pc-body{ min-width:0; }
+.pc-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--accent, var(--gold)); margin-bottom:8px; }
+.pc-title{ font-family:var(--head); font-size:20px; font-weight:600; margin:0 0 8px; transition:color .25s; }
+.pc-desc{ font-size:14px; color:var(--paper-dim); margin:0 0 14px; max-width:640px; }
+.pc-chips{ display:flex; flex-wrap:wrap; gap:7px; }
+.pc-chip{ font-family:var(--mono); font-size:10.5px; padding:4px 10px; border-radius:999px; border:1px solid var(--line-strong); color:var(--paper-faint); }
+
+.pc-arrow{ font-family:var(--head); font-size:22px; color:var(--paper-faint); opacity:0.5; transition:transform .25s, opacity .25s; flex:none; }
+
+/* accent variants */
+.acc-gold{ --accent: var(--gold); }
+.acc-teal{ --accent: var(--teal); }
+.acc-coral{ --accent: var(--coral); }
+
+/* ---------- FOOTER ---------- */
+footer{ padding:0 0 80px; }
+.demo-note{ font-family:var(--mono); font-size:12px; color:var(--paper-faint); line-height:1.7; max-width:660px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Selected Work</div>
+    <h1>Five problems, one seat at the table: <em>growth &amp; retention</em>.</h1>
+    <p class="lede">Case studies from my time in Growth &amp; Retention Marketing — scoring frameworks, lifecycle automation, cross-functional programs, and the data science partnerships behind them.</p>
+
+    <div class="meta-row">
+      <div><b>5</b> case studies</div>
+      <div><b>All</b> anonymized for confidentiality</div>
+      <div><b>Interactive</b> — every page has a worked example</div>
+    </div>
+
+    <div class="index-bar">
+      <span class="index-pill">Retention strategy</span>
+      <span class="index-pill">Lifecycle automation</span>
+      <span class="index-pill">Cross-functional programs</span>
+      <span class="index-pill">Data science partnership</span>
+      <span class="index-pill">Scoring &amp; segmentation</span>
+    </div>
+  </div>
+</header>
+
+<section class="projects">
+  <div class="wrap">
+    <div class="project-grid reveal">
+
+      <a class="project-card acc-gold" href="retention-framework-case-study.html">
+        <div class="pc-num">01</div>
+        <div class="pc-body">
+          <div class="pc-tag">Retention Strategy</div>
+          <h2 class="pc-title">Engagement Value</h2>
+          <p class="pc-desc">Designing a single relationship-value score to replace calendar-driven retention spend — with an interactive framework that shows how each signal moves the score.</p>
+          <div class="pc-chips">
+            <span class="pc-chip">Scoring frameworks</span>
+            <span class="pc-chip">Segmentation</span>
+            <span class="pc-chip">Spend efficiency</span>
+          </div>
+        </div>
+        <div class="pc-arrow">→</div>
+      </a>
+
+      <a class="project-card acc-teal" href="lifecycle-journey-case-study.html">
+        <div class="pc-num">02</div>
+        <div class="pc-body">
+          <div class="pc-tag">Lifecycle Automation</div>
+          <h2 class="pc-title">Game-End Nudge</h2>
+          <p class="pc-desc">A segmented nudge system that reads wallet balance and purchase propensity the instant a game ends, and decides in real time whether, when, and how to intervene.</p>
+          <div class="pc-chips">
+            <span class="pc-chip">Real-time triggers</span>
+            <span class="pc-chip">Behavioral segmentation</span>
+            <span class="pc-chip">Offer design</span>
+          </div>
+        </div>
+        <div class="pc-arrow">→</div>
+      </a>
+
+      <a class="project-card acc-coral" href="reactivation-framework-case-study.html">
+        <div class="pc-num">03</div>
+        <div class="pc-body">
+          <div class="pc-tag">Process Automation</div>
+          <h2 class="pc-title">Reactivation Engine</h2>
+          <p class="pc-desc">Auditing a manually-run, 30-day win-back cycle and redesigning it as an automated, self-refreshing targeting system — with the reasoning behind every offer decision made visible.</p>
+          <div class="pc-chips">
+            <span class="pc-chip">Process auditing</span>
+            <span class="pc-chip">Marketing automation</span>
+            <span class="pc-chip">Offer logic</span>
+          </div>
+        </div>
+        <div class="pc-arrow">→</div>
+      </a>
+
+      <a class="project-card acc-gold" href="growth-data-science-case-study.html">
+        <div class="pc-num">04</div>
+        <div class="pc-body">
+          <div class="pc-tag">Data Science Partnership</div>
+          <h2 class="pc-title">Four Models, One Partnership</h2>
+          <p class="pc-desc">Scoping, evaluating, and shipping four predictive models in partnership with a data science team — from target-variable definition to the spend decision each model unlocked.</p>
+          <div class="pc-chips">
+            <span class="pc-chip">Predictive modeling</span>
+            <span class="pc-chip">Cross-functional scoping</span>
+            <span class="pc-chip">Cost-benefit analysis</span>
+          </div>
+        </div>
+        <div class="pc-arrow">→</div>
+      </a>
+
+      <a class="project-card acc-teal" href="tournament-season-case-study.html">
+        <div class="pc-num">05</div>
+        <div class="pc-body">
+          <div class="pc-tag">Cross-Functional Program</div>
+          <h2 class="pc-title">The Season</h2>
+          <p class="pc-desc">Co-leading a national-scale tournament and loyalty program across nine teams — one season, three player motivations, and a single funnel built to serve all of them at once.</p>
+          <div class="pc-chips">
+            <span class="pc-chip">Program design</span>
+            <span class="pc-chip">Cross-functional leadership</span>
+            <span class="pc-chip">Incentive structuring</span>
+          </div>
+        </div>
+        <div class="pc-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="demo-note">All five case studies are anonymized: company identity, teammate names, and exact figures have been removed, generalized, or replaced with illustrative values throughout. The strategic thinking, frameworks, and my role in each are accurately represented.</p>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{ threshold:0.1 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>

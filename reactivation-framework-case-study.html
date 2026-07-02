@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reactivation Engine — A Lifecycle Automation Case Study | Sai Krishna Katla</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink: #0A0F1A;
+  --ink-2: #111A2B;
+  --ink-3: #182236;
+  --line: rgba(237,234,224,0.10);
+  --line-strong: rgba(237,234,224,0.22);
+  --paper: #EDEAE0;
+  --paper-dim: rgba(237,234,224,0.62);
+  --paper-faint: rgba(237,234,224,0.38);
+  --gold: #D4A73C;
+  --gold-dim: rgba(212,167,60,0.16);
+  --teal: #4FBDBA;
+  --teal-dim: rgba(79,189,186,0.16);
+  --coral: #E2604F;
+  --coral-dim: rgba(226,96,79,0.16);
+
+  --display: 'Instrument Serif', serif;
+  --head: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+body{ margin:0; background:var(--ink); color:var(--paper); font-family:var(--body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+::selection{ background:var(--gold); color:var(--ink); }
+a{color:inherit;}
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+.wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+@media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+.ctx-banner{ background:var(--ink-2); border-bottom:1px solid var(--line-strong); padding:10px 0; }
+.ctx-banner .wrap{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ctx-banner .dot{ width:6px; height:6px; border-radius:50%; background:var(--teal); flex:none; }
+.ctx-banner p{ margin:0; font-family:var(--mono); font-size:11.5px; color:var(--paper-faint); letter-spacing:0.01em; }
+.ctx-banner b{ color:var(--paper-dim); font-weight:500; }
+
+nav.top{ position:sticky; top:0; z-index:50; background:rgba(10,15,26,0.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+nav.top .wrap{ display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand{ font-family:var(--head); font-weight:600; font-size:14px; letter-spacing:0.02em; }
+.brand span{ color:var(--gold); }
+.navlinks{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+.navlinks a{ font-family:var(--head); font-size:12.5px; text-decoration:none; color:var(--paper-dim); letter-spacing:0.03em; text-transform:uppercase; transition:color .2s; }
+.navlinks a:hover{ color:var(--gold); }
+@media (max-width:760px){ .navlinks{ display:none; } }
+
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+.hero{ padding:80px 0 64px; position:relative; overflow:hidden; }
+.hero::before{ content:''; position:absolute; inset:-20% -10% auto -10%; height:520px;
+  background:radial-gradient(ellipse at 30% 20%, rgba(212,167,60,0.10), transparent 60%), radial-gradient(ellipse at 75% 40%, rgba(79,189,186,0.08), transparent 55%);
+  pointer-events:none; }
+.eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.eyebrow::before{ content:''; width:24px; height:1px; background:var(--teal); }
+.hero h1{ font-family:var(--display); font-weight:400; font-size:clamp(38px,6.6vw,72px); line-height:1.06; margin:0 0 24px; letter-spacing:-0.01em; max-width:800px; }
+.hero h1 em{ font-style:italic; color:var(--gold); }
+.hero p.lede{ font-size:19px; color:var(--paper-dim); max-width:600px; margin:0 0 32px; }
+.role-card{ display:flex; gap:16px; align-items:center; padding:16px 20px; border:1px solid var(--line-strong); border-radius:8px; background:var(--ink-2); max-width:600px; margin-bottom:28px; }
+.role-card .avatar{ width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg, var(--gold), var(--coral)); flex:none; display:flex; align-items:center; justify-content:center; font-family:var(--head); font-weight:700; color:var(--ink); font-size:16px; }
+.role-card .rt{ font-size:13.5px; color:var(--paper-dim); line-height:1.45; }
+.role-card .rt b{ color:var(--paper); font-weight:600; }
+.hero .meta{ display:flex; gap:24px; flex-wrap:wrap; font-family:var(--mono); font-size:12.5px; color:var(--paper-faint); }
+.hero .meta b{ color:var(--paper); font-weight:500; }
+
+section{ padding:80px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:44px; max-width:660px; }
+.sec-num{ font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:0.1em; margin-bottom:14px; }
+.sec-head h2{ font-family:var(--head); font-weight:600; font-size:clamp(26px,3.6vw,36px); margin:0 0 12px; letter-spacing:-0.01em; }
+.sec-head p{ color:var(--paper-dim); font-size:15.5px; margin:0; }
+
+.stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:32px; }
+@media (max-width:700px){ .stat-row{ grid-template-columns:1fr; } }
+.stat-card{ background:var(--ink); padding:22px 22px; }
+.stat-card .num{ font-family:var(--mono); font-size:26px; font-weight:600; color:var(--gold); }
+.stat-card .label{ font-size:12.5px; color:var(--paper-faint); margin-top:4px; }
+
+.chips-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{ font-family:var(--mono); font-size:11.5px; padding:6px 13px; border-radius:999px; border:1px solid var(--line-strong); color:var(--paper-dim); }
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+@media (max-width:760px){ .two-col{ grid-template-columns:1fr; } }
+.scope-text p{ color:var(--paper-dim); font-size:15.5px; }
+
+/* ---------- DIAGRAM ---------- */
+.diagram-wrap{ border:1px solid var(--line-strong); border-radius:10px; padding:40px 28px; background:var(--ink-2); }
+.diagram-row{ display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:wrap; }
+.d-node{ border:1px solid var(--line-strong); background:var(--ink-3); border-radius:8px; padding:16px 18px; font-family:var(--head); font-size:13px; font-weight:600; color:var(--paper-dim); min-width:140px; text-align:center; }
+.d-node .dn-sub{ display:block; font-family:var(--mono); font-weight:400; font-size:10.5px; color:var(--paper-faint); margin-top:5px; line-height:1.4; }
+.d-arrow{ width:34px; height:1px; background:var(--line-strong); position:relative; flex:none; margin:0 4px; }
+.d-arrow::after{ content:''; position:absolute; right:0; top:-3px; width:0; height:0; border-left:6px solid var(--line-strong); border-top:4px solid transparent; border-bottom:4px solid transparent; }
+@media (max-width:760px){ .diagram-row{ flex-direction:column; } .d-arrow{ width:1px; height:24px; } .d-arrow::after{ right:-3px; top:auto; bottom:0; border-left:4px solid transparent; border-right:4px solid transparent; border-top:6px solid var(--line-strong); } }
+.diagram-note{ text-align:center; font-family:var(--mono); font-size:11.5px; color:var(--paper-faint); margin-top:22px; }
+
+/* ---------- SEGMENT GROUPS ---------- */
+.module-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+@media (max-width:900px){ .module-grid{ grid-template-columns:1fr; } }
+.module-card{ background:var(--ink); padding:26px 24px; display:flex; flex-direction:column; gap:12px; }
+.module-card .m-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); }
+.module-card h3{ font-family:var(--head); font-size:17px; margin:0; }
+.module-card p{ margin:0; font-size:13.5px; color:var(--paper-dim); }
+.module-card .m-cond{ font-size:12px; color:var(--paper-faint); border-top:1px solid var(--line); padding-top:12px; }
+
+/* ---------- LISTS ---------- */
+.simple-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); }
+.simple-item{ background:var(--ink); padding:18px 24px; display:flex; gap:16px; align-items:flex-start; }
+.simple-item .ico{ width:8px; height:8px; border-radius:50%; background:var(--gold); margin-top:8px; flex:none; }
+.simple-item.coral .ico{ background:var(--coral); }
+.simple-item p{ margin:0; color:var(--paper-dim); font-size:14.5px; }
+.simple-item p b{ color:var(--paper); font-weight:600; }
+
+/* ---------- ANIMATED FLOW EXAMPLE ---------- */
+.persona-row{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+.persona-btn{ font-family:var(--head); font-size:13.5px; font-weight:600; padding:13px 20px; border-radius:8px; border:1px solid var(--line-strong); background:var(--ink-2); color:var(--paper-dim); cursor:pointer; transition:border-color .2s, color .2s, background .2s; text-align:left; }
+.persona-btn .pb-tag{ display:block; font-family:var(--mono); font-weight:400; font-size:10.5px; color:var(--paper-faint); letter-spacing:.06em; text-transform:uppercase; margin-top:3px; }
+.persona-btn:hover{ border-color:var(--teal); color:var(--paper); }
+.persona-btn.active{ border-color:var(--gold); color:var(--gold); background:var(--gold-dim); }
+.persona-btn.active .pb-tag{ color:var(--gold); opacity:.75; }
+
+.flow-wrap{ border:1px solid var(--line-strong); border-radius:10px; padding:36px 24px; background:var(--ink-2); margin-bottom:28px; overflow-x:auto; }
+.flow-row{ display:flex; align-items:center; justify-content:flex-start; gap:0; min-width:760px; }
+.flow-node{ border:1px solid var(--line-strong); background:var(--ink-3); border-radius:8px; padding:14px 15px; font-family:var(--head); font-size:12px; font-weight:600; color:var(--paper-dim); min-width:118px; text-align:center; transition:border-color .35s, color .35s, background .35s, transform .35s; flex:none; }
+.flow-node .fn-sub{ display:block; font-family:var(--mono); font-weight:400; font-size:9.5px; color:var(--paper-faint); margin-top:4px; transition:color .35s; }
+.flow-node.lit{ border-color:var(--gold); color:var(--gold); background:var(--gold-dim); transform:scale(1.045); }
+.flow-node.lit .fn-sub{ color:var(--gold); opacity:.8; }
+.flow-node.outcome.lit{ border-color:var(--teal); color:var(--teal); background:var(--teal-dim); }
+.flow-node.outcome.lit .fn-sub{ color:var(--teal); }
+.flow-arrow{ width:26px; height:1px; background:var(--line-strong); position:relative; flex:none; margin:0 4px; transition:background .35s; }
+.flow-arrow::after{ content:''; position:absolute; right:0; top:-3px; width:0; height:0; border-left:6px solid var(--line-strong); border-top:4px solid transparent; border-bottom:4px solid transparent; transition:border-color .35s; }
+.flow-arrow.lit{ background:var(--gold); }
+.flow-arrow.lit::after{ border-left-color:var(--gold); }
+
+.example-narrative{ border:1px solid var(--line-strong); border-radius:8px; padding:22px 24px; background:var(--ink-2); }
+.example-narrative p{ margin:0 0 14px; font-size:14.5px; color:var(--paper-dim); line-height:1.6; }
+.example-narrative .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ---------- SKILLS ---------- */
+.skills-wrap{ display:flex; flex-wrap:wrap; gap:10px; }
+.skill-pill{ font-family:var(--mono); font-size:12px; color:var(--paper-dim); border:1px solid var(--line-strong); padding:7px 14px; border-radius:999px; }
+
+footer{ padding:52px 0 76px; border-top:1px solid var(--line); }
+.demo-note{ font-family:var(--mono); font-size:12px; color:var(--paper-faint); line-height:1.7; max-width:660px; margin-bottom:26px; }
+footer .credit{ font-size:13px; color:var(--paper-faint); }
+footer .credit b{ color:var(--paper); font-weight:500; }
+</style>
+</head>
+<body>
+
+<div class="ctx-banner">
+  <div class="wrap">
+    <span class="dot"></span>
+    <p><b>Portfolio case study.</b> Company identity, tool names, database schema, and exact volumes/thresholds have been removed, generalized, or replaced with illustrative values. The framework evaluation and automation design are my own work.</p>
+  </div>
+</div>
+
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">REACTIVATION ENGINE <span>Case Study</span></div>
+    <ul class="navlinks">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#segmentation">Segmentation</a></li>
+      <li><a href="#challenges">Challenges</a></li>
+      <li><a href="#example">Example</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Lifecycle Automation · Growth</div>
+    <h1>A 30-day cycle to win back players — <em>rebuilt to run itself</em>.</h1>
+    <p class="lede">An audit and redesign of a lapsed-player reactivation engine — moving it from a manually-maintained monthly batch process to an automated, self-refreshing targeting system.</p>
+
+    <div class="role-card">
+      <div class="avatar">SK</div>
+      <div class="rt"><b>Sai Krishna Katla</b> — Manager, Growth &amp; Retention Marketing<br>Evaluated the existing framework, scoped its limits, and designed the automation path forward.</div>
+    </div>
+
+    <div class="meta">
+      <div><b>3</b> inactivity windows</div>
+      <div><b>9</b> segment groups</div>
+      <div><b>2</b> offer types — voucher or purchase bonus</div>
+    </div>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">01 — Objective</div>
+      <h2>Two goals, one automation layer.</h2>
+    </div>
+    <div class="two-col reveal">
+      <div class="scope-text"><p><b style="color:var(--paper)">Optimize for efficiency</b> — move the framework onto a fully automated pipeline, cutting manual effort and shortening the gap between a player going inactive and being targeted.</p></div>
+      <div class="scope-text"><p><b style="color:var(--paper)">Maximize growth &amp; revenue</b> — close the gaps the manual version couldn't reach, and let data decide where reactivation spend actually earns a return.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">02 — Who This Targets</div>
+      <h2>Lapsed, eligible, and worth winning back.</h2>
+      <p>A player enters the framework once they've gone quiet — and clear eligibility rules keep the funnel from wasting effort on players who were never going to convert.</p>
+    </div>
+    <div class="chips-row reveal">
+      <span class="chip">No play or purchase in 30+ days</span>
+      <span class="chip">Converted more than 30 days ago</span>
+      <span class="chip">Not deleted or self-excluded</span>
+      <span class="chip">Positive lifetime revenue</span>
+    </div>
+  </div>
+</section>
+
+<section id="segmentation">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">03 — Scoring &amp; Segmentation</div>
+      <h2>Three signals decide the offer, not one.</h2>
+      <p>Every inactive player is scored, then placed by how long they've been gone, how hard to push, and whether their wallet already has enough to reactivate on its own.</p>
+    </div>
+
+    <div class="diagram-wrap reveal">
+      <div class="diagram-row">
+        <div class="d-node">Inactive Window<span class="dn-sub">31–60 / 61–90 / 90+ days</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Scoring Framework<span class="dn-sub">Lifetime + recent value</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Segment + Pressure Tag<span class="dn-sub">+ wallet balance check</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Reactivation Offer<span class="dn-sub">Voucher or purchase bonus</span></div>
+      </div>
+      <div class="diagram-note">Players who opt in and return loop back into the active pool. Players who don't stay in the cycle for the next scoring refresh.</div>
+    </div>
+  </div>
+</section>
+
+<section id="scoring-inputs">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">04 — What Feeds the Score</div>
+      <h2>Four categories of signal.</h2>
+    </div>
+    <div class="chips-row reveal">
+      <span class="chip">Lifetime value — total rake, purchases, redemptions, retention spend</span>
+      <span class="chip">Recent behavior — last 30/60/90-day activity &amp; spend</span>
+      <span class="chip">Peak tier reached — highest value tier &amp; VIP status ever held</span>
+      <span class="chip">Time signals — days since last play, days since conversion</span>
+    </div>
+  </div>
+</section>
+
+<section id="worked-logic">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">05 — How a Reward Gets Picked</div>
+      <h2>One illustrative example.</h2>
+    </div>
+    <div class="diagram-wrap reveal">
+      <p style="margin:0 0 14px; font-size:14.5px; color:var(--paper-dim);">A high-value player, inactive 90+ days, scores into a <b style="color:var(--paper)">high-pressure</b> segment with a wallet balance already above the reactivation threshold.</p>
+      <div class="chips-row" style="margin-bottom:14px;">
+        <span class="chip">Segment: high value, long-lapsed</span>
+        <span class="chip">Pressure: high</span>
+        <span class="chip">Wallet: above threshold</span>
+      </div>
+      <p style="margin:0; font-size:14.5px; color:var(--paper-dim);">This player gets a <b style="color:var(--paper)">purchase bonus only</b> — never a gift voucher — because they already have enough balance to come back on their own. The voucher goes to players whose wallet is empty and needs seeding first.</p>
+    </div>
+  </div>
+</section>
+
+<section id="challenges">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">06 — What I Found</div>
+      <h2>Where the manual version was losing time.</h2>
+    </div>
+    <div class="simple-list reveal">
+      <div class="simple-item coral"><div class="ico"></div><p><b>Scoring cadence.</b> Refresh ran on a 30-day cycle (15 days for high-value players) — a window that could be tightened for faster reactivation.</p></div>
+      <div class="simple-item coral"><div class="ico"></div><p><b>Targeting speed.</b> Segment computation took several hours per cycle, with further delay re-targeting players missed on the first pass.</p></div>
+      <div class="simple-item coral"><div class="ico"></div><p><b>Operational load.</b> Manual offer mapping capped segmentation at a few dozen cohorts — each refresh meant re-creating and re-mapping every offer code by hand.</p></div>
+      <div class="simple-item coral"><div class="ico"></div><p><b>Communication realignment.</b> Messaging across channels had to be rebuilt at every refresh to stay relevant.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="proposal">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">07 — What I Proposed</div>
+      <h2>Four pillars of automation.</h2>
+    </div>
+    <div class="module-grid reveal">
+      <div class="module-card">
+        <div class="m-tag">Computation</div>
+        <h3>Automate the refresh</h3>
+        <p>Move scoring and segmentation updates off manual runs and onto an automated pipeline, cutting the time between inactivity and targeting.</p>
+      </div>
+      <div class="module-card">
+        <div class="m-tag">Offer generation</div>
+        <h3>One dynamic template</h3>
+        <p>Replace dozens of manually-created offer codes with a single templated voucher and bonus, dynamically valued and auto-mapped each cycle.</p>
+      </div>
+      <div class="module-card">
+        <div class="m-tag">Communication</div>
+        <h3>Event-driven tracking</h3>
+        <p>Let targeting, opt-ins, and expirations update automatically wherever an offer is issued, instead of manual channel remapping.</p>
+      </div>
+    </div>
+    <div class="simple-list reveal" style="margin-top:1px;">
+      <div class="simple-item"><div class="ico"></div><p><b>Monitoring &amp; error handling.</b> A dashboard tracking offer distribution and effectiveness, plus logs for targeting errors and expiration anomalies — so issues surface before they compound.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="example">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">08 — Worked Example</div>
+      <h2>Follow a lapsed player through the engine.</h2>
+      <p>Pick a player state and watch the same pipeline land on a different offer each time.</p>
+    </div>
+
+    <div class="persona-row reveal" id="personaRow"></div>
+
+    <div class="flow-wrap reveal">
+      <div class="flow-row" id="flowRow">
+        <div class="flow-node" id="fn0">Goes Inactive<span class="fn-sub">Eligibility confirmed</span></div>
+        <div class="flow-arrow" id="fa0"></div>
+        <div class="flow-node" id="fn1">Scoring Framework<span class="fn-sub" id="fn1sub">Lifetime + recent value</span></div>
+        <div class="flow-arrow" id="fa1"></div>
+        <div class="flow-node" id="fn2">Segment Assigned<span class="fn-sub" id="fn2sub">—</span></div>
+        <div class="flow-arrow" id="fa2"></div>
+        <div class="flow-node" id="fn3">Pressure + Wallet Check<span class="fn-sub" id="fn3sub">—</span></div>
+        <div class="flow-arrow" id="fa3"></div>
+        <div class="flow-node outcome" id="fn4">Offer<span class="fn-sub" id="fn4sub">—</span></div>
+      </div>
+    </div>
+
+    <div class="example-narrative reveal" id="exampleNarrative"></div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">09 — Skills Demonstrated</div>
+      <h2>What this project drew on.</h2>
+    </div>
+    <div class="skills-wrap reveal">
+      <span class="skill-pill">Lifecycle &amp; reactivation strategy</span>
+      <span class="skill-pill">Scoring &amp; segmentation design</span>
+      <span class="skill-pill">Marketing automation</span>
+      <span class="skill-pill">Process &amp; efficiency auditing</span>
+      <span class="skill-pill">Cross-functional spec ownership</span>
+      <span class="skill-pill">Offer &amp; incentive design</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="demo-note">This case study presents a reactivation framework audit and automation proposal I authored while working in Growth &amp; Retention Marketing at a real-money gaming platform. Company name, tool names, database schema, and exact volumes or thresholds have been removed, generalized, or replaced with illustrative values. The framework evaluation and automation design are my own original work.</p>
+    <div class="credit"><b>Sai Krishna Katla</b> — Growth &amp; Retention Marketing</div>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{ threshold:0.12 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ================= WORKED EXAMPLE (animated flow) =================
+const personas = [
+  {
+    name:'Long-Lapsed, High Value',
+    tag:'90+ days inactive',
+    segment:'High value, long-lapsed',
+    pressure:'High pressure · wallet above threshold',
+    outcome:'Purchase Bonus Only',
+    outcomeSub:'No voucher needed',
+    narrative:'This player already has enough wallet balance to come back on their own — a voucher would be wasted. A purchase bonus nudges the actual transaction instead.',
+    chips:['Pressure: High','Wallet: above threshold','Offer: Purchase bonus']
+  },
+  {
+    name:'Long-Lapsed, Low Balance',
+    tag:'90+ days inactive',
+    segment:'Lower value, long-lapsed',
+    pressure:'Low pressure · wallet empty',
+    outcome:'Gift Voucher',
+    outcomeSub:'Seeds the wallet first',
+    narrative:'Wallet is empty and value is lower — there\u2019s nothing to nudge yet. A gift voucher seeds the balance so the player has something to play with before any purchase ask.',
+    chips:['Pressure: Low','Wallet: below threshold','Offer: Gift voucher']
+  },
+  {
+    name:'Recently Lapsed, Recurring',
+    tag:'31–60 days inactive',
+    segment:'Recurring pattern, short lapse',
+    pressure:'Low pressure · wallet moderate',
+    outcome:'Light Voucher Nudge',
+    outcomeSub:'Smaller, earlier touch',
+    narrative:'This player has come and gone before and hasn\u2019t been away long — a light, early nudge is enough to catch the pattern before it turns into a longer lapse.',
+    chips:['Pressure: Low','History: recurring reactivations','Offer: Light voucher']
+  }
+];
+
+const flowIds = ['fn0','fa0','fn1','fa1','fn2','fa2','fn3','fa3','fn4'];
+let flowTimers = [];
+
+function resetFlow(){
+  flowTimers.forEach(t=>clearTimeout(t));
+  flowTimers = [];
+  flowIds.forEach(id=>document.getElementById(id).classList.remove('lit'));
+}
+
+function playFlow(p){
+  resetFlow();
+  document.getElementById('fn2sub').textContent = p.segment;
+  document.getElementById('fn3sub').textContent = p.pressure;
+  document.getElementById('fn4').childNodes[0].textContent = p.outcome;
+  document.getElementById('fn4sub').textContent = p.outcomeSub;
+
+  flowIds.forEach((id, i)=>{
+    const t = setTimeout(()=>{ document.getElementById(id).classList.add('lit'); }, i*250);
+    flowTimers.push(t);
+  });
+
+  document.getElementById('exampleNarrative').innerHTML = `
+    <p>${p.narrative}</p>
+    <div class="chips">${p.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+  `;
+}
+
+function buildPersonaRow(){
+  const row = document.getElementById('personaRow');
+  row.innerHTML = personas.map((p,i)=>`
+    <button class="persona-btn${i===0?' active':''}" data-idx="${i}">${p.name}<span class="pb-tag">${p.tag}</span></button>
+  `).join('');
+  row.querySelectorAll('.persona-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      row.querySelectorAll('.persona-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      playFlow(personas[parseInt(btn.dataset.idx,10)]);
+    });
+  });
+}
+buildPersonaRow();
+playFlow(personas[0]);
+</script>
+
+</body>
+</html>

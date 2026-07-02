@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game-End Nudge — A Lifecycle Journey Case Study | Sai Krishna Katla</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink: #0A0F1A;
+  --ink-2: #111A2B;
+  --ink-3: #182236;
+  --line: rgba(237,234,224,0.10);
+  --line-strong: rgba(237,234,224,0.22);
+  --paper: #EDEAE0;
+  --paper-dim: rgba(237,234,224,0.62);
+  --paper-faint: rgba(237,234,224,0.38);
+  --gold: #D4A73C;
+  --gold-dim: rgba(212,167,60,0.16);
+  --teal: #4FBDBA;
+  --teal-dim: rgba(79,189,186,0.16);
+  --coral: #E2604F;
+  --coral-dim: rgba(226,96,79,0.16);
+
+  --display: 'Instrument Serif', serif;
+  --head: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+body{ margin:0; background:var(--ink); color:var(--paper); font-family:var(--body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+::selection{ background:var(--gold); color:var(--ink); }
+a{color:inherit;}
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+.wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+@media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+.ctx-banner{ background:var(--ink-2); border-bottom:1px solid var(--line-strong); padding:10px 0; }
+.ctx-banner .wrap{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ctx-banner .dot{ width:6px; height:6px; border-radius:50%; background:var(--teal); flex:none; }
+.ctx-banner p{ margin:0; font-family:var(--mono); font-size:11.5px; color:var(--paper-faint); letter-spacing:0.01em; }
+.ctx-banner b{ color:var(--paper-dim); font-weight:500; }
+
+nav.top{ position:sticky; top:0; z-index:50; background:rgba(10,15,26,0.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+nav.top .wrap{ display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand{ font-family:var(--head); font-weight:600; font-size:14px; letter-spacing:0.02em; }
+.brand span{ color:var(--gold); }
+.navlinks{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+.navlinks a{ font-family:var(--head); font-size:12.5px; text-decoration:none; color:var(--paper-dim); letter-spacing:0.03em; text-transform:uppercase; transition:color .2s; }
+.navlinks a:hover{ color:var(--gold); }
+@media (max-width:760px){ .navlinks{ display:none; } }
+
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+.hero{ padding:80px 0 64px; position:relative; overflow:hidden; }
+.hero::before{ content:''; position:absolute; inset:-20% -10% auto -10%; height:520px;
+  background:radial-gradient(ellipse at 30% 20%, rgba(212,167,60,0.10), transparent 60%), radial-gradient(ellipse at 75% 40%, rgba(79,189,186,0.08), transparent 55%);
+  pointer-events:none; }
+.eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.eyebrow::before{ content:''; width:24px; height:1px; background:var(--teal); }
+.hero h1{ font-family:var(--display); font-weight:400; font-size:clamp(40px,7vw,76px); line-height:1.04; margin:0 0 24px; letter-spacing:-0.01em; max-width:800px; }
+.hero h1 em{ font-style:italic; color:var(--gold); }
+.hero p.lede{ font-size:19px; color:var(--paper-dim); max-width:600px; margin:0 0 32px; }
+.role-card{ display:flex; gap:16px; align-items:center; padding:16px 20px; border:1px solid var(--line-strong); border-radius:8px; background:var(--ink-2); max-width:600px; margin-bottom:28px; }
+.role-card .avatar{ width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg, var(--gold), var(--coral)); flex:none; display:flex; align-items:center; justify-content:center; font-family:var(--head); font-weight:700; color:var(--ink); font-size:16px; }
+.role-card .rt{ font-size:13.5px; color:var(--paper-dim); line-height:1.45; }
+.role-card .rt b{ color:var(--paper); font-weight:600; }
+.hero .meta{ display:flex; gap:24px; flex-wrap:wrap; font-family:var(--mono); font-size:12.5px; color:var(--paper-faint); }
+.hero .meta b{ color:var(--paper); font-weight:500; }
+
+section{ padding:80px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:44px; max-width:660px; }
+.sec-num{ font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:0.1em; margin-bottom:14px; }
+.sec-head h2{ font-family:var(--head); font-weight:600; font-size:clamp(26px,3.6vw,36px); margin:0 0 12px; letter-spacing:-0.01em; }
+.sec-head p{ color:var(--paper-dim); font-size:15.5px; margin:0; }
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+@media (max-width:760px){ .two-col{ grid-template-columns:1fr; } }
+.scope-text p{ color:var(--paper-dim); font-size:15.5px; }
+
+.stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:32px; }
+@media (max-width:700px){ .stat-row{ grid-template-columns:1fr; } }
+.stat-card{ background:var(--ink); padding:22px 22px; }
+.stat-card .num{ font-family:var(--mono); font-size:26px; font-weight:600; color:var(--gold); }
+.stat-card .label{ font-size:12.5px; color:var(--paper-faint); margin-top:4px; }
+
+.chips-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{ font-family:var(--mono); font-size:11.5px; padding:6px 13px; border-radius:999px; border:1px solid var(--line-strong); color:var(--paper-dim); }
+
+/* ---------- OVERVIEW DIAGRAM ---------- */
+.diagram-wrap{ border:1px solid var(--line-strong); border-radius:10px; padding:40px 28px; background:var(--ink-2); }
+.diagram-row{ display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:wrap; }
+.d-node{ border:1px solid var(--line-strong); background:var(--ink-3); border-radius:8px; padding:16px 18px; font-family:var(--head); font-size:13px; font-weight:600; color:var(--paper-dim); min-width:140px; text-align:center; }
+.d-node .dn-sub{ display:block; font-family:var(--mono); font-weight:400; font-size:10.5px; color:var(--paper-faint); margin-top:5px; line-height:1.4; }
+.d-arrow{ width:34px; height:1px; background:var(--line-strong); position:relative; flex:none; margin:0 4px; }
+.d-arrow::after{ content:''; position:absolute; right:0; top:-3px; width:0; height:0; border-left:6px solid var(--line-strong); border-top:4px solid transparent; border-bottom:4px solid transparent; }
+@media (max-width:760px){ .diagram-row{ flex-direction:column; } .d-arrow{ width:1px; height:24px; } .d-arrow::after{ right:-3px; top:auto; bottom:0; border-left:4px solid transparent; border-right:4px solid transparent; border-top:6px solid var(--line-strong); } }
+
+/* ---------- MODULES ---------- */
+.module-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+@media (max-width:900px){ .module-grid{ grid-template-columns:1fr; } }
+.module-card{ background:var(--ink); padding:28px 24px; display:flex; flex-direction:column; gap:14px; }
+.module-card .m-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); }
+.module-card h3{ font-family:var(--head); font-size:18px; margin:0; }
+.module-card .m-share{ font-family:var(--mono); font-size:28px; color:var(--teal); font-weight:600; }
+.module-card .m-share span{ font-size:12px; color:var(--paper-faint); display:block; font-weight:400; margin-top:2px; }
+.module-card .m-cond{ font-size:12.5px; color:var(--paper-faint); border-top:1px solid var(--line); padding-top:12px; line-height:1.6; }
+.module-card p{ margin:0; font-size:13.5px; color:var(--paper-dim); }
+.illus-flag{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; color:var(--paper-faint); margin-bottom:20px; letter-spacing:.02em; }
+.illus-flag .sw{ width:8px; height:8px; border-radius:2px; background:var(--gold); flex:none; }
+
+/* ---------- LISTS ---------- */
+.simple-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); }
+.simple-item{ background:var(--ink); padding:18px 24px; display:flex; gap:16px; align-items:flex-start; }
+.simple-item .ico{ width:8px; height:8px; border-radius:50%; background:var(--gold); margin-top:8px; flex:none; }
+.simple-item.coral .ico{ background:var(--coral); }
+.simple-item p{ margin:0; color:var(--paper-dim); font-size:14.5px; }
+
+/* ---------- TEAM ---------- */
+.team-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+@media (max-width:700px){ .team-grid{ grid-template-columns:1fr; } }
+.team-card{ background:var(--ink); padding:24px 24px; }
+.team-card .t-role{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); margin-bottom:10px; }
+.team-card ul{ margin:0; padding-left:16px; color:var(--paper-dim); font-size:13.5px; display:flex; flex-direction:column; gap:6px; }
+
+/* ---------- ANIMATED FLOW EXAMPLE ---------- */
+.persona-row{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+.persona-btn{ font-family:var(--head); font-size:13.5px; font-weight:600; padding:13px 20px; border-radius:8px; border:1px solid var(--line-strong); background:var(--ink-2); color:var(--paper-dim); cursor:pointer; transition:border-color .2s, color .2s, background .2s; text-align:left; }
+.persona-btn .pb-tag{ display:block; font-family:var(--mono); font-weight:400; font-size:10.5px; color:var(--paper-faint); letter-spacing:.06em; text-transform:uppercase; margin-top:3px; }
+.persona-btn:hover{ border-color:var(--teal); color:var(--paper); }
+.persona-btn.active{ border-color:var(--gold); color:var(--gold); background:var(--gold-dim); }
+.persona-btn.active .pb-tag{ color:var(--gold); opacity:.75; }
+
+.flow-wrap{ border:1px solid var(--line-strong); border-radius:10px; padding:36px 24px; background:var(--ink-2); margin-bottom:28px; overflow-x:auto; }
+.flow-row{ display:flex; align-items:center; justify-content:flex-start; gap:0; min-width:640px; }
+.flow-node{ border:1px solid var(--line-strong); background:var(--ink-3); border-radius:8px; padding:14px 16px; font-family:var(--head); font-size:12.5px; font-weight:600; color:var(--paper-dim); min-width:128px; text-align:center; transition:border-color .35s, color .35s, background .35s, transform .35s; flex:none; }
+.flow-node .fn-sub{ display:block; font-family:var(--mono); font-weight:400; font-size:10px; color:var(--paper-faint); margin-top:4px; transition:color .35s; }
+.flow-node.lit{ border-color:var(--gold); color:var(--gold); background:var(--gold-dim); transform:scale(1.045); }
+.flow-node.lit .fn-sub{ color:var(--gold); opacity:.8; }
+.flow-node.outcome.lit{ border-color:var(--teal); color:var(--teal); background:var(--teal-dim); }
+.flow-node.outcome.lit .fn-sub{ color:var(--teal); }
+.flow-arrow{ width:32px; height:1px; background:var(--line-strong); position:relative; flex:none; margin:0 4px; transition:background .35s; }
+.flow-arrow::after{ content:''; position:absolute; right:0; top:-3px; width:0; height:0; border-left:6px solid var(--line-strong); border-top:4px solid transparent; border-bottom:4px solid transparent; transition:border-color .35s; }
+.flow-arrow.lit{ background:var(--gold); }
+.flow-arrow.lit::after{ border-left-color:var(--gold); }
+
+.example-narrative{ border:1px solid var(--line-strong); border-radius:8px; padding:22px 24px; background:var(--ink-2); }
+.example-narrative p{ margin:0 0 14px; font-size:14.5px; color:var(--paper-dim); line-height:1.6; }
+.example-narrative .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ---------- CONFIG TABLE ---------- */
+.config-table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+.config-table th{ text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--paper-faint); border-bottom:1px solid var(--line-strong); padding:10px 14px; }
+.config-table td{ padding:12px 14px; border-bottom:1px solid var(--line); color:var(--paper-dim); }
+.config-table tr:last-child td{ border-bottom:none; }
+.config-table td:first-child{ font-family:var(--mono); color:var(--paper); }
+
+/* ---------- SKILLS ---------- */
+.skills-wrap{ display:flex; flex-wrap:wrap; gap:10px; }
+.skill-pill{ font-family:var(--mono); font-size:12px; color:var(--paper-dim); border:1px solid var(--line-strong); padding:7px 14px; border-radius:999px; }
+
+footer{ padding:52px 0 76px; border-top:1px solid var(--line); }
+.demo-note{ font-family:var(--mono); font-size:12px; color:var(--paper-faint); line-height:1.7; max-width:660px; margin-bottom:26px; }
+footer .credit{ font-size:13px; color:var(--paper-faint); }
+footer .credit b{ color:var(--paper); font-weight:500; }
+</style>
+</head>
+<body>
+
+<div class="ctx-banner">
+  <div class="wrap">
+    <span class="dot"></span>
+    <p><b>Portfolio case study.</b> Company identity, teammate names, exact thresholds, and real offer codes have been removed, generalized, or replaced with illustrative values. The journey logic and segmentation design are my own work.</p>
+  </div>
+</div>
+
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">GAME-END NUDGE <span>Case Study</span></div>
+    <ul class="navlinks">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#modules">Modules</a></li>
+      <li><a href="#example">Example</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Lifecycle Marketing · Growth</div>
+    <h1>Same player, same moment — <em>a different call every time</em>.</h1>
+
+    <p class="lede">A segmented nudge system I designed for a real-money gaming platform — reading wallet balance, loss amount, and purchase propensity the instant a game ends, then deciding in real time whether, when, and how to intervene.</p>
+
+    <div class="role-card">
+      <div class="avatar">SK</div>
+      <div class="rt"><b>Sai Krishna Katla</b> — Manager, Growth &amp; Retention Marketing<br>Designed the segmentation logic and owned the journey spec end to end.</div>
+    </div>
+
+    <div class="meta">
+      <div><b>2</b> priority segments — high &amp; mid value</div>
+      <div><b>5</b> propensity tiers</div>
+      <div><b>Game end</b> is the trigger, every time</div>
+    </div>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">01 — Objective</div>
+      <h2>Nudge the right player, at the moment it lands.</h2>
+      <p>Increase purchase conversion and cut early churn among high- and mid-value players, by reading behaviour at game-end and acting within the next 24 hours — not on a fixed campaign calendar.</p>
+    </div>
+
+    <div class="stat-row reveal">
+      <div class="stat-card"><div class="num">HVP / MVP</div><div class="label">Targeted segments</div></div>
+      <div class="stat-card"><div class="num">Game End</div><div class="label">Trigger point</div></div>
+      <div class="stat-card"><div class="num">5 tiers</div><div class="label">Purchase propensity, Very High → Very Low</div></div>
+    </div>
+
+    <div class="chips-row reveal">
+      <span class="chip">Purchase APDs</span>
+      <span class="chip">Purchase amount</span>
+      <span class="chip">Bonus opt-in rate</span>
+      <span class="chip">Bonus claim rate</span>
+      <span class="chip">D1 retention</span>
+      <span class="chip">Bet downgrades</span>
+    </div>
+  </div>
+</section>
+
+<section id="diagram">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">02 — How It Works</div>
+      <h2>One trigger, one model, one rule set.</h2>
+      <p>Every game-end event runs through the same pipeline before any offer goes out.</p>
+    </div>
+    <div class="diagram-wrap reveal">
+      <div class="diagram-row">
+        <div class="d-node">Game Ends<span class="dn-sub">Trigger fires</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Propensity Model<span class="dn-sub">Score the player</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Rules Engine<span class="dn-sub">Wallet, loss, redeem</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Bonus Offer<span class="dn-sub">Personalized, time-boxed</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="modules">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">03 — Strategy Modules</div>
+      <h2>Three player states, three different plays.</h2>
+      <p>Every game-end event lands in exactly one of three buckets, defined by wallet balance and loss size relative to configurable thresholds.</p>
+    </div>
+
+    <div class="module-grid reveal">
+      <div class="module-card">
+        <div class="m-tag">Module A</div>
+        <h3>Healthy wallet, high propensity</h3>
+        <p>Wallet balance sits above threshold for both segments. Since these players usually convert on their own, we wait before intervening — then check wallet and pending-redeem status, and offer a bonus sized to their typical purchase, only if it's actually needed.</p>
+        <div class="m-cond">Condition: wallet balance above threshold</div>
+      </div>
+      <div class="module-card">
+        <div class="m-tag">Module B</div>
+        <h3>Thin wallet, heavy losses</h3>
+        <p>Wallet balance is low and losses are high — the moment most likely to lead to a walk-away. After a short wait, if no redemption is pending, we send a bonus sized to the player's typical packet. If a redemption is pending, we address that first.</p>
+        <div class="m-cond">Condition: wallet balance and loss both past threshold</div>
+      </div>
+      <div class="module-card">
+        <div class="m-tag">Module C</div>
+        <h3>Lower balance, lower loss</h3>
+        <p>Smaller stakes, lower urgency. The propensity model still classifies these events, and only the players worth nudging get a lighter-touch, selectively-targeted offer.</p>
+        <div class="m-cond">Condition: wallet balance and loss both below threshold</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">04 — What the Logic Needs</div>
+      <h2>Six inputs the automation runs on.</h2>
+    </div>
+    <div class="simple-list reveal">
+      <div class="simple-item"><div class="ico"></div><p>Purchase propensity score, refreshed regularly</p></div>
+      <div class="simple-item"><div class="ico"></div><p>Real-time wallet balance</p></div>
+      <div class="simple-item"><div class="ico"></div><p>Trailing wager amount, last 30 days</p></div>
+      <div class="simple-item"><div class="ico"></div><p>Pending redemption check</p></div>
+      <div class="simple-item"><div class="ico"></div><p>Player's historical purchase packet size</p></div>
+      <div class="simple-item"><div class="ico"></div><p>Configurable wait time post game-end, plus 24-hour journey suppression so one bonus doesn't overlap another</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="limitations">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">05 — What I Flagged</div>
+      <h2>Where this logic can break.</h2>
+    </div>
+    <div class="simple-list reveal">
+      <div class="simple-item coral"><div class="ico"></div><p>Since the trigger fires on every game-end event, one player can qualify for multiple modules in quick succession.</p></div>
+      <div class="simple-item coral"><div class="ico"></div><p>Without proper suppression, a player could be targeted with multiple bonus offers in a short window.</p></div>
+      <div class="simple-item coral"><div class="ico"></div><p>Wait times and buffer periods need careful tuning, or journeys start to overlap and cannibalize each other.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="example">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">06 — Worked Example</div>
+      <h2>Follow a player through the logic.</h2>
+      <p>Pick a player state and watch the same pipeline make a different call each time.</p>
+    </div>
+
+    <div class="persona-row reveal" id="personaRow"></div>
+
+    <div class="flow-wrap reveal">
+      <div class="flow-row" id="flowRow">
+        <div class="flow-node" id="fn0">Game Ends<span class="fn-sub">Trigger fires</span></div>
+        <div class="flow-arrow" id="fa0"></div>
+        <div class="flow-node" id="fn1">Classify Propensity<span class="fn-sub" id="fn1sub">Score the player</span></div>
+        <div class="flow-arrow" id="fa1"></div>
+        <div class="flow-node" id="fn2">Wait Period<span class="fn-sub" id="fn2sub">Configurable delay</span></div>
+        <div class="flow-arrow" id="fa2"></div>
+        <div class="flow-node" id="fn3">Check Wallet &amp; Redeem<span class="fn-sub" id="fn3sub">Live status</span></div>
+        <div class="flow-arrow" id="fa3"></div>
+        <div class="flow-node outcome" id="fn4">Decision<span class="fn-sub" id="fn4sub">—</span></div>
+      </div>
+    </div>
+
+    <div class="example-narrative reveal" id="exampleNarrative"></div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">07 — Cross-Functional Scope</div>
+      <h2>What it took to ship this.</h2>
+      <p>Four teams, one shared journey spec. Names generalized to roles.</p>
+    </div>
+    <div class="team-grid reveal">
+      <div class="team-card">
+        <div class="t-role">Analytics</div>
+        <ul>
+          <li>Evaluate model performance against live data</li>
+          <li>Define wait periods, A/B testing where the answer wasn't obvious</li>
+          <li>Publish cohort-level performance dashboards</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <div class="t-role">BI &amp; Tools Engineering</div>
+        <ul>
+          <li>Automate the data pipelines feeding the journey logic</li>
+          <li>Build the journey in the workflow engine</li>
+          <li>Surface system dependencies and data gaps early</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <div class="t-role">Lifecycle Comms</div>
+        <ul>
+          <li>Write message variants per segment</li>
+          <li>Set channel mix and frequency caps to avoid fatigue</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <div class="t-role">CRM Execution</div>
+        <ul>
+          <li>Implement the workflows exactly as specced</li>
+          <li>Hold precise control over timing and targeting logic</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="config">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">08 — Offer Ladder</div>
+      <h2>Bonus sizing, illustrative example.</h2>
+      <p>Offers scale with a player's typical purchase size — bigger spenders unlock bigger, shorter-fused offers.</p>
+    </div>
+    <div class="illus-flag reveal"><span class="sw"></span> Example tiers and codes shown, not the platform's live configuration</div>
+    <div class="diagram-wrap reveal" style="overflow-x:auto;">
+      <table class="config-table">
+        <thead><tr><th>Packet size tier</th><th>Example offer</th><th>Bonus validity</th></tr></thead>
+        <tbody>
+          <tr><td>Tier 1 — highest</td><td>Extra bonus, capped, on a defined minimum purchase</td><td>12 hrs</td></tr>
+          <tr><td>Tier 2</td><td>Extra bonus, capped, scaled down from Tier 1</td><td>12 hrs</td></tr>
+          <tr><td>Tier 3</td><td>Extra bonus, capped, scaled down further</td><td>12 hrs</td></tr>
+          <tr><td>Tier 4 — lowest</td><td>Small extra bonus on a low minimum purchase</td><td>24 hrs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="wayforward">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">09 — Wayforward</div>
+      <h2>Where this goes next.</h2>
+    </div>
+    <div class="simple-list reveal">
+      <div class="simple-item"><div class="ico"></div><p>Extend into a purchase upsell layer for cohorts already showing high propensity.</p></div>
+      <div class="simple-item"><div class="ico"></div><p>Merge with the broader inactivity and reactivation automation, so a player never falls between two journeys.</p></div>
+      <div class="simple-item"><div class="ico"></div><p>Iterate wait times and thresholds once the first measurement cycle closes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">10 — Skills Demonstrated</div>
+      <h2>What this project drew on.</h2>
+    </div>
+    <div class="skills-wrap reveal">
+      <span class="skill-pill">Behavioral segmentation</span>
+      <span class="skill-pill">Real-time trigger design</span>
+      <span class="skill-pill">Propensity modeling collaboration</span>
+      <span class="skill-pill">Cross-functional spec ownership</span>
+      <span class="skill-pill">Offer &amp; incentive design</span>
+      <span class="skill-pill">CRM / lifecycle marketing</span>
+      <span class="skill-pill">A/B test design</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="demo-note">This case study presents a lifecycle nudge journey I designed while working in Growth &amp; Retention Marketing at a real-money gaming platform. Company name, teammate names, exact thresholds, and live offer codes have been removed, generalized, or replaced with illustrative values. The segmentation logic, journey design, and cross-functional spec are my own original work.</p>
+    <div class="credit"><b>Sai Krishna Katla</b> — Growth &amp; Retention Marketing</div>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{ threshold:0.12 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ================= WORKED EXAMPLE (animated flow) =================
+const personas = [
+  {
+    name:'Healthy Wallet, High Propensity',
+    tag:'Module A',
+    propensity:'High — likely to convert',
+    wait:'Wait applied — let it happen',
+    wallet:'Balance sufficient, no redeem pending',
+    outcome:'No Bonus Sent',
+    outcomeSub:'Purchase left to happen organically',
+    narrative:'Propensity was already high and the wallet is healthy — spending a bonus here would just be a discount on a purchase that was going to happen anyway. The system holds back and lets the moment pass on its own.',
+    chips:['Wallet: above threshold','Propensity: High','Redeem: none pending']
+  },
+  {
+    name:'Thin Wallet, Heavy Losses',
+    tag:'Module B',
+    propensity:'Rule-based — high-risk moment',
+    wait:'Short wait, then re-check',
+    wallet:'Balance low, no redeem pending',
+    outcome:'Bonus Offer Sent',
+    outcomeSub:'Sized to typical purchase packet',
+    narrative:'Wallet is thin and losses are heavy — exactly the moment a player is most likely to walk away instead of topping up. No redemption is pending, so a personalized, time-boxed bonus goes out immediately.',
+    chips:['Wallet: below threshold','Loss: above threshold','Redeem: none pending']
+  },
+  {
+    name:'Lower Balance, Lower Loss',
+    tag:'Module C',
+    propensity:'Medium — selectively worth a nudge',
+    wait:'Wait applied before scoring',
+    wallet:'Balance low, loss modest',
+    outcome:'Light-Touch Offer Sent',
+    outcomeSub:'Smaller bonus, lower urgency',
+    narrative:'Lower stakes, lower urgency. The propensity model still scores the event, and only the players worth nudging get a lighter, smaller offer — sized not to over-spend on a still-uncertain segment.',
+    chips:['Wallet: below threshold','Loss: below threshold','Propensity: Medium']
+  }
+];
+
+const flowIds = ['fn0','fa0','fn1','fa1','fn2','fa2','fn3','fa3','fn4'];
+let flowTimers = [];
+
+function resetFlow(){
+  flowTimers.forEach(t=>clearTimeout(t));
+  flowTimers = [];
+  flowIds.forEach(id=>document.getElementById(id).classList.remove('lit'));
+}
+
+function playFlow(p){
+  resetFlow();
+  document.getElementById('fn1sub').textContent = p.propensity;
+  document.getElementById('fn2sub').textContent = p.wait;
+  document.getElementById('fn3sub').textContent = p.wallet;
+  document.getElementById('fn4').childNodes[0].textContent = p.outcome;
+  document.getElementById('fn4sub').textContent = p.outcomeSub;
+
+  flowIds.forEach((id, i)=>{
+    const t = setTimeout(()=>{ document.getElementById(id).classList.add('lit'); }, i*260);
+    flowTimers.push(t);
+  });
+
+  document.getElementById('exampleNarrative').innerHTML = `
+    <p>${p.narrative}</p>
+    <div class="chips">${p.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+  `;
+}
+
+function buildPersonaRow(){
+  const row = document.getElementById('personaRow');
+  row.innerHTML = personas.map((p,i)=>`
+    <button class="persona-btn${i===0?' active':''}" data-idx="${i}">${p.name}<span class="pb-tag">${p.tag}</span></button>
+  `).join('');
+  row.querySelectorAll('.persona-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      row.querySelectorAll('.persona-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      playFlow(personas[parseInt(btn.dataset.idx,10)]);
+    });
+  });
+}
+buildPersonaRow();
+playFlow(personas[0]);
+</script>
+
+</body>
+</html>

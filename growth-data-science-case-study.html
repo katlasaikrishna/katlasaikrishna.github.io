@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth × Data Science — A Predictive Modeling Case Study | Sai Krishna Katla</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink: #0A0F1A;
+  --ink-2: #111A2B;
+  --ink-3: #182236;
+  --line: rgba(237,234,224,0.10);
+  --line-strong: rgba(237,234,224,0.22);
+  --paper: #EDEAE0;
+  --paper-dim: rgba(237,234,224,0.62);
+  --paper-faint: rgba(237,234,224,0.38);
+  --gold: #D4A73C;
+  --gold-dim: rgba(212,167,60,0.16);
+  --teal: #4FBDBA;
+  --teal-dim: rgba(79,189,186,0.16);
+  --coral: #E2604F;
+  --coral-dim: rgba(226,96,79,0.16);
+
+  --display: 'Instrument Serif', serif;
+  --head: 'Space Grotesk', sans-serif;
+  --body: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+body{ margin:0; background:var(--ink); color:var(--paper); font-family:var(--body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+::selection{ background:var(--gold); color:var(--ink); }
+a{color:inherit;}
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+.wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+@media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+.ctx-banner{ background:var(--ink-2); border-bottom:1px solid var(--line-strong); padding:10px 0; }
+.ctx-banner .wrap{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ctx-banner .dot{ width:6px; height:6px; border-radius:50%; background:var(--teal); flex:none; }
+.ctx-banner p{ margin:0; font-family:var(--mono); font-size:11.5px; color:var(--paper-faint); letter-spacing:0.01em; }
+.ctx-banner b{ color:var(--paper-dim); font-weight:500; }
+
+nav.top{ position:sticky; top:0; z-index:50; background:rgba(10,15,26,0.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+nav.top .wrap{ display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand{ font-family:var(--head); font-weight:600; font-size:14px; letter-spacing:0.02em; }
+.brand span{ color:var(--gold); }
+.navlinks{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+.navlinks a{ font-family:var(--head); font-size:12.5px; text-decoration:none; color:var(--paper-dim); letter-spacing:0.03em; text-transform:uppercase; transition:color .2s; }
+.navlinks a:hover{ color:var(--gold); }
+@media (max-width:760px){ .navlinks{ display:none; } }
+
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+.hero{ padding:80px 0 64px; position:relative; overflow:hidden; }
+.hero::before{ content:''; position:absolute; inset:-20% -10% auto -10%; height:520px;
+  background:radial-gradient(ellipse at 30% 20%, rgba(212,167,60,0.10), transparent 60%), radial-gradient(ellipse at 75% 40%, rgba(79,189,186,0.08), transparent 55%);
+  pointer-events:none; }
+.eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.eyebrow::before{ content:''; width:24px; height:1px; background:var(--teal); }
+.hero h1{ font-family:var(--display); font-weight:400; font-size:clamp(38px,6.6vw,72px); line-height:1.06; margin:0 0 24px; letter-spacing:-0.01em; max-width:820px; }
+.hero h1 em{ font-style:italic; color:var(--gold); }
+.hero p.lede{ font-size:19px; color:var(--paper-dim); max-width:620px; margin:0 0 32px; }
+.role-card{ display:flex; gap:16px; align-items:center; padding:16px 20px; border:1px solid var(--line-strong); border-radius:8px; background:var(--ink-2); max-width:620px; margin-bottom:28px; }
+.role-card .avatar{ width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg, var(--gold), var(--coral)); flex:none; display:flex; align-items:center; justify-content:center; font-family:var(--head); font-weight:700; color:var(--ink); font-size:16px; }
+.role-card .rt{ font-size:13.5px; color:var(--paper-dim); line-height:1.45; }
+.role-card .rt b{ color:var(--paper); font-weight:600; }
+.hero .meta{ display:flex; gap:24px; flex-wrap:wrap; font-family:var(--mono); font-size:12.5px; color:var(--paper-faint); }
+.hero .meta b{ color:var(--paper); font-weight:500; }
+
+section{ padding:80px 0; border-top:1px solid var(--line); }
+.sec-head{ margin-bottom:44px; max-width:680px; }
+.sec-num{ font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:0.1em; margin-bottom:14px; }
+.sec-head h2{ font-family:var(--head); font-weight:600; font-size:clamp(26px,3.6vw,36px); margin:0 0 12px; letter-spacing:-0.01em; }
+.sec-head p{ color:var(--paper-dim); font-size:15.5px; margin:0; }
+
+.chips-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{ font-family:var(--mono); font-size:11.5px; padding:6px 13px; border-radius:999px; border:1px solid var(--line-strong); color:var(--paper-dim); }
+
+.illus-flag{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; color:var(--paper-faint); margin-bottom:20px; letter-spacing:.02em; }
+.illus-flag .sw{ width:8px; height:8px; border-radius:2px; background:var(--gold); flex:none; }
+
+/* ---------- ROLE STEPS ---------- */
+.simple-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); }
+.simple-item{ background:var(--ink); padding:18px 24px; display:flex; gap:16px; align-items:flex-start; }
+.simple-item .ico{ width:8px; height:8px; border-radius:50%; background:var(--gold); margin-top:8px; flex:none; }
+.simple-item p{ margin:0; color:var(--paper-dim); font-size:14.5px; }
+.simple-item p b{ color:var(--paper); font-weight:600; }
+
+/* ---------- MODEL CARDS ---------- */
+.model-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+@media (max-width:820px){ .model-grid{ grid-template-columns:1fr; } }
+.model-card{ background:var(--ink); padding:28px 26px; display:flex; flex-direction:column; gap:12px; }
+.model-card .mc-tag{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); }
+.model-card h3{ font-family:var(--head); font-size:19px; margin:0; }
+.model-card p{ margin:0; font-size:13.5px; color:var(--paper-dim); }
+.model-card .mc-role{ font-size:12.5px; color:var(--paper-faint); border-top:1px solid var(--line); padding-top:12px; }
+.model-card .mc-role b{ color:var(--paper-dim); }
+
+/* ---------- PROCESS DIAGRAM ---------- */
+.diagram-wrap{ border:1px solid var(--line-strong); border-radius:10px; padding:40px 28px; background:var(--ink-2); }
+.diagram-row{ display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:wrap; }
+.d-node{ border:1px solid var(--line-strong); background:var(--ink-3); border-radius:8px; padding:16px 18px; font-family:var(--head); font-size:13px; font-weight:600; color:var(--paper-dim); min-width:140px; text-align:center; }
+.d-node .dn-sub{ display:block; font-family:var(--mono); font-weight:400; font-size:10.5px; color:var(--paper-faint); margin-top:5px; line-height:1.4; }
+.d-arrow{ width:34px; height:1px; background:var(--line-strong); position:relative; flex:none; margin:0 4px; }
+.d-arrow::after{ content:''; position:absolute; right:0; top:-3px; width:0; height:0; border-left:6px solid var(--line-strong); border-top:4px solid transparent; border-bottom:4px solid transparent; }
+@media (max-width:760px){ .diagram-row{ flex-direction:column; } .d-arrow{ width:1px; height:24px; } .d-arrow::after{ right:-3px; top:auto; bottom:0; border-left:4px solid transparent; border-right:4px solid transparent; border-top:6px solid var(--line-strong); } }
+
+/* ---------- ANIMATED COMPARISON ---------- */
+.persona-row{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+.persona-btn{ font-family:var(--head); font-size:13.5px; font-weight:600; padding:13px 20px; border-radius:8px; border:1px solid var(--line-strong); background:var(--ink-2); color:var(--paper-dim); cursor:pointer; transition:border-color .2s, color .2s, background .2s; text-align:left; }
+.persona-btn .pb-tag{ display:block; font-family:var(--mono); font-weight:400; font-size:10.5px; color:var(--paper-faint); letter-spacing:.06em; text-transform:uppercase; margin-top:3px; }
+.persona-btn:hover{ border-color:var(--teal); color:var(--paper); }
+.persona-btn.active{ border-color:var(--gold); color:var(--gold); background:var(--gold-dim); }
+.persona-btn.active .pb-tag{ color:var(--gold); opacity:.75; }
+
+.compare-wrap{ border:1px solid var(--line-strong); border-radius:10px; padding:32px 28px; background:var(--ink-2); margin-bottom:28px; }
+.compare-row{ display:grid; grid-template-columns:150px 1fr 60px; align-items:center; gap:16px; padding:12px 0; border-bottom:1px solid var(--line); }
+.compare-row:last-child{ border-bottom:none; }
+.compare-row .c-label{ font-family:var(--head); font-size:13px; font-weight:600; color:var(--paper-dim); }
+.compare-track{ height:10px; background:var(--ink-3); border-radius:5px; overflow:hidden; }
+.compare-fill{ height:100%; border-radius:5px; width:0; transition:width 1s cubic-bezier(.2,.8,.2,1); }
+.compare-fill.baseline{ background:var(--paper-faint); }
+.compare-fill.model{ background:var(--gold); }
+.compare-row .c-val{ font-family:var(--mono); font-size:13px; color:var(--paper-faint); text-align:right; }
+.multiplier-callout{ text-align:center; margin-top:24px; padding-top:24px; border-top:1px solid var(--line); }
+.multiplier-callout .m-num{ font-family:var(--display); font-size:52px; color:var(--gold); line-height:1; }
+.multiplier-callout .m-label{ font-family:var(--mono); font-size:11.5px; color:var(--paper-faint); text-transform:uppercase; letter-spacing:.08em; margin-top:6px; }
+
+.example-narrative{ border:1px solid var(--line-strong); border-radius:8px; padding:22px 24px; background:var(--ink-2); }
+.example-narrative p{ margin:0 0 14px; font-size:14.5px; color:var(--paper-dim); line-height:1.6; }
+.example-narrative .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ---------- SKILLS ---------- */
+.skills-wrap{ display:flex; flex-wrap:wrap; gap:10px; }
+.skill-pill{ font-family:var(--mono); font-size:12px; color:var(--paper-dim); border:1px solid var(--line-strong); padding:7px 14px; border-radius:999px; }
+
+footer{ padding:52px 0 76px; border-top:1px solid var(--line); }
+.demo-note{ font-family:var(--mono); font-size:12px; color:var(--paper-faint); line-height:1.7; max-width:660px; margin-bottom:26px; }
+footer .credit{ font-size:13px; color:var(--paper-faint); }
+footer .credit b{ color:var(--paper); font-weight:500; }
+</style>
+</head>
+<body>
+
+<div class="ctx-banner">
+  <div class="wrap">
+    <span class="dot"></span>
+    <p><b>Portfolio case study.</b> Company identity, exact figures, variable names, and dataset details have been removed, generalized, or replaced with illustrative values. The collaboration model and my contribution are accurately represented.</p>
+  </div>
+</div>
+
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">GROWTH × DATA SCIENCE <span>Case Study</span></div>
+    <ul class="navlinks">
+      <li><a href="#role">My Role</a></li>
+      <li><a href="#models">Models</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#example">Example</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Growth Marketing × Data Science</div>
+    <h1>Turning growth questions into <em>models the business could act on</em>.</h1>
+    <p class="lede">Four predictive models, one recurring role: translating a marketing problem into a target variable a data science team could build against — then turning their output back into a targeting rule the business could run.</p>
+
+    <div class="role-card">
+      <div class="avatar">SK</div>
+      <div class="rt"><b>Sai Krishna Katla</b> — Manager, Growth &amp; Retention Marketing<br>Defined the business problem, target variable, and success metric for each model; translated model output into targeting rules and cost-benefit calls.</div>
+    </div>
+
+    <div class="meta">
+      <div><b>4</b> models shipped</div>
+      <div><b>Cross-functional</b> — Growth + Data Science</div>
+      <div><b>Game-end &amp; conversion</b> — the two moments most models hook into</div>
+    </div>
+  </div>
+</header>
+
+<section id="role">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">01 — My Role</div>
+      <h2>The bridge between a marketing question and a trained model.</h2>
+      <p>A data science team can build almost anything — the hard part is deciding exactly what to predict, for whom, and what to do with the answer. That's the part I owned on each of these four builds.</p>
+    </div>
+    <div class="simple-list reveal">
+      <div class="simple-item"><div class="ico"></div><p><b>Frame the problem.</b> Turn a vague growth question ("who's about to leave money on the table?") into a precise target variable a model can be trained on.</p></div>
+      <div class="simple-item"><div class="ico"></div><p><b>Scope the segment &amp; trigger.</b> Decide which players and which moment — conversion, game-end, a rolling window — the model should actually run on.</p></div>
+      <div class="simple-item"><div class="ico"></div><p><b>Read the model back.</b> Interpret variable importance and performance metrics, and translate them into a targeting rule a campaign can use.</p></div>
+      <div class="simple-item"><div class="ico"></div><p><b>Make the spend call.</b> Run the cost-benefit math and decide whether — and how — the model's output turns into a live campaign.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="models">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">02 — The Four Models</div>
+      <h2>Same partnership, four different questions.</h2>
+      <p>Each model answers a different moment in the player lifecycle — but the collaboration pattern was identical every time.</p>
+    </div>
+    <div class="model-grid reveal">
+      <div class="model-card">
+        <div class="mc-tag">Bonus Affinity</div>
+        <h3>Who actually uses a bonus when offered?</h3>
+        <p>Scores each player's inclination to claim a targeted bonus, using purchase and claim behavior over a rolling window. Segments players into No / Low / Medium / High affinity so spend stops flowing to players who won't use the offer.</p>
+        <div class="mc-role"><b>My contribution:</b> defined the affinity segments and the spend-optimization use case for the score.</div>
+      </div>
+      <div class="model-card">
+        <div class="mc-tag">Early VIP Model</div>
+        <h3>Who's about to become a high-value player?</h3>
+        <p>Predicts, within days of conversion, which new players are trending toward high-value status — paired with an early-churn model for the same window, so onboarding treatment can split high-potential from high-risk players fast.</p>
+        <div class="mc-role"><b>My contribution:</b> defined the target variable, the early-days window, and the success metrics tied to onboarding.</div>
+      </div>
+      <div class="model-card">
+        <div class="mc-tag">Purchase Prediction</div>
+        <h3>Will this player buy right after this game?</h3>
+        <p>At every game-end event, predicts whether a player's next action will be a purchase — so the moment can be used to either upsell confidently or offer a bonus instead of leaving it to chance.</p>
+        <div class="mc-role"><b>My contribution:</b> defined the trigger point, the priority segments, and the two resulting use cases (upsell vs. bonus).</div>
+      </div>
+      <div class="model-card">
+        <div class="mc-tag">Redeem Prediction</div>
+        <h3>Is this player about to cash out?</h3>
+        <p>Predicts, at game-end, whether a player is likely to request a withdrawal in the next day — creating a window to act before the redeem request, not after.</p>
+        <div class="mc-role"><b>My contribution:</b> defined the target window, the qualifying segment, and the proactive-retention use case.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">03 — How We Built Them</div>
+      <h2>The same four steps, every time.</h2>
+    </div>
+    <div class="diagram-wrap reveal">
+      <div class="diagram-row">
+        <div class="d-node">Define Target Variable<span class="dn-sub">What are we predicting?</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Shortlist Signals<span class="dn-sub">Behavioral &amp; profile variables</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Build &amp; Validate<span class="dn-sub">Rule-based, ML, or hybrid</span></div>
+        <div class="d-arrow"></div>
+        <div class="d-node">Cost-Benefit Call<span class="dn-sub">Ship it, or not</span></div>
+      </div>
+    </div>
+    <div class="chips-row reveal" style="margin-top:24px;">
+      <span class="chip">Wallet &amp; balance signals</span>
+      <span class="chip">Recent wager &amp; win activity</span>
+      <span class="chip">Purchase &amp; bonus history</span>
+      <span class="chip">User profile &amp; value tier</span>
+    </div>
+  </div>
+</section>
+
+<section id="example">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">04 — Worked Example</div>
+      <h2>What "the model works" actually looks like.</h2>
+      <p>Every model was judged against the same baseline — a randomly targeted sample the same size as the model's shortlist. Pick a model to see the comparison.</p>
+    </div>
+
+    <div class="illus-flag reveal"><span class="sw"></span> Capture rates and multipliers below are illustrative, not the platform's actual model results</div>
+
+    <div class="persona-row reveal" id="personaRow"></div>
+
+    <div class="compare-wrap reveal">
+      <div class="compare-row">
+        <div class="c-label">Random Targeting</div>
+        <div class="compare-track"><div class="compare-fill baseline" id="barBaseline"></div></div>
+        <div class="c-val" id="valBaseline">—</div>
+      </div>
+      <div class="compare-row">
+        <div class="c-label">With Model</div>
+        <div class="compare-track"><div class="compare-fill model" id="barModel"></div></div>
+        <div class="c-val" id="valModel">—</div>
+      </div>
+      <div class="multiplier-callout">
+        <div class="m-num" id="multVal">—</div>
+        <div class="m-label">more effective than random targeting, same sample size</div>
+      </div>
+    </div>
+
+    <div class="example-narrative reveal" id="exampleNarrative"></div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">05 — Skills Demonstrated</div>
+      <h2>What this project drew on.</h2>
+    </div>
+    <div class="skills-wrap reveal">
+      <span class="skill-pill">Cross-functional model scoping</span>
+      <span class="skill-pill">Target variable definition</span>
+      <span class="skill-pill">Predictive model evaluation</span>
+      <span class="skill-pill">Cost-benefit analysis</span>
+      <span class="skill-pill">Segmentation strategy</span>
+      <span class="skill-pill">Data science stakeholder management</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="demo-note">This case study presents four predictive modeling projects I scoped and owned from the business side, in partnership with a data science team, while working in Growth &amp; Retention Marketing at a real-money gaming platform. Company name, exact figures, variable names, and dataset details have been removed, generalized, or replaced with illustrative values. The collaboration model, my contribution, and each model's business objective are accurately represented.</p>
+    <div class="credit"><b>Sai Krishna Katla</b> — Growth &amp; Retention Marketing</div>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{ threshold:0.12 });
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ================= WORKED EXAMPLE (animated comparison) =================
+const models = [
+  {
+    name:'Bonus Affinity',
+    tag:'Spend optimization',
+    baseline:14, model:52, mult:'~4X',
+    narrative:'Random targeting claims a bonus about as often as chance allows. Scoring affinity first means spend concentrates on players who were actually going to use the offer — instead of subsidizing players who never claim it.',
+    chips:['Segments: No / Low / Medium / High affinity','Use case: bonus spend efficiency']
+  },
+  {
+    name:'Early VIP Model',
+    tag:'Onboarding treatment',
+    baseline:13, model:58, mult:'~5X',
+    narrative:'Most new players never show VIP behavior — but the ones who will tend to signal it within days. Catching that signal early means differentiated onboarding can start immediately, instead of waiting for a full month of data.',
+    chips:['Window: first days post-conversion','Use case: early VIP vs early-churn split']
+  },
+  {
+    name:'Purchase Prediction',
+    tag:'Game-end targeting',
+    baseline:11, model:64, mult:'~6X',
+    narrative:'Only a small fraction of game-end events lead straight to a purchase. Flagging the right ones in real time means the same event can trigger either a confident upsell or a well-timed bonus — instead of a generic nudge to everyone.',
+    chips:['Trigger: every game-end event','Use case: upsell vs. bonus decision']
+  },
+  {
+    name:'Redeem Prediction',
+    tag:'Proactive retention',
+    baseline:10, model:35, mult:'~3X',
+    narrative:'Waiting for a redeem request means the decision has already been made. Flagging the signal at game-end opens a window to act before the withdrawal — the whole point of calling it proactive.',
+    chips:['Trigger: game-end, 24-hour window','Use case: pre-empt the withdrawal moment']
+  }
+];
+
+function animateValue(el, start, end, duration, suffix){
+  const t0 = performance.now();
+  function step(now){
+    const t = Math.min(1, (now-t0)/duration);
+    const e = 1 - Math.pow(1-t,3);
+    const val = Math.round(start + (end-start)*e);
+    el.textContent = val + (suffix || '');
+    if(t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function playModel(m){
+  document.getElementById('barBaseline').style.width = '0%';
+  document.getElementById('barModel').style.width = '0%';
+  document.getElementById('valBaseline').textContent = '—';
+  document.getElementById('valModel').textContent = '—';
+  document.getElementById('multVal').textContent = '—';
+
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      document.getElementById('barBaseline').style.width = m.baseline + '%';
+      animateValue(document.getElementById('valBaseline'), 0, m.baseline, 800, '%');
+    }, 120);
+    setTimeout(()=>{
+      document.getElementById('barModel').style.width = m.model + '%';
+      animateValue(document.getElementById('valModel'), 0, m.model, 800, '%');
+    }, 420);
+    setTimeout(()=>{
+      document.getElementById('multVal').textContent = m.mult;
+    }, 900);
+  });
+
+  document.getElementById('exampleNarrative').innerHTML = `
+    <p>${m.narrative}</p>
+    <div class="chips">${m.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+  `;
+}
+
+function buildPersonaRow(){
+  const row = document.getElementById('personaRow');
+  row.innerHTML = models.map((m,i)=>`
+    <button class="persona-btn${i===0?' active':''}" data-idx="${i}">${m.name}<span class="pb-tag">${m.tag}</span></button>
+  `).join('');
+  row.querySelectorAll('.persona-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      row.querySelectorAll('.persona-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      playModel(models[parseInt(btn.dataset.idx,10)]);
+    });
+  });
+}
+buildPersonaRow();
+playModel(models[0]);
+</script>
+
+</body>
+</html>
